@@ -1,1 +1,3 @@
 # simple-jpql
+
+Nothing to see yet...
