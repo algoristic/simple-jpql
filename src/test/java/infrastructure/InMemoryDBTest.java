@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import infrastructure.entities.Book;
 
 @DisplayName("Tests providing the basic functionality of the In-Memory DB")
-public class InMemoryDBTest extends JPAHibernateTest {
+public class InMemoryDBTest extends SimpleJPQLTest {
 
     @Test
     @DisplayName("Query single object by ID")
