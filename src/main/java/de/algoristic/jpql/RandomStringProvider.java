@@ -1,13 +1,14 @@
 package de.algoristic.jpql;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
 public class RandomStringProvider {
     
-    private static final int DEF_LENGTH = 3;
+    private static final int DEF_LENGTH = 16;
     
     private List<String> assignedStrings = new ArrayList<>();
     
