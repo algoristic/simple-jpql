@@ -11,6 +11,7 @@
     <junit-jupiter-api.version>5.5.2</junit-jupiter-api.version>
     <junit-jupiter-engine.version>5.5.2</junit-jupiter-engine.version>
     <h2.version>1.4.200</h2.version>
+    <log4j-core.version>2.12.1</log4j-core.version>
   </properties>
 
   <dependencies>
@@ -19,6 +20,12 @@
       <artifactId>hibernate-core</artifactId>
       <version>${hibernate-core.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>${log4j-core.version}</version>
+    </dependency>
+
 
     <!-- test dependencies -->
     <dependency>
