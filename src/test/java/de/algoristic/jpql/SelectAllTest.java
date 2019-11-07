@@ -10,42 +10,80 @@ import org.junit.jupiter.api.Test;
 import infrastructure.BasicJPQLTest;
 import infrastructure.entities.Book;
 
-@DisplayName("Testing different methods to create queries like:\nSELECT * FROM <TABLE>")
+@SuppressWarnings("rawtypes")
+@DisplayName("Create queries resembling:\nSELECT * FROM <TABLE>")
 public class SelectAllTest extends BasicJPQLTest {
-    
+
     @Test
     @DisplayName("Select.from(\"Book\")")
     void selectByClassName() {
-        @SuppressWarnings("rawtypes") List results = em.createQuery(Select.from("Book").query()).getResultList();
-        assertEquals(results.size(), 1);
+        String qlString = Select.from("Book").query();
+        List results = em.createQuery(qlString).getResultList();
+        assertEquals(results.size(), 10);
     }
-    
+
     @Test
     @DisplayName("Select.from(\"Book b\")")
     void selectByClassNameWithAlias() {
-        @SuppressWarnings("rawtypes") List results = em.createQuery(Select.from("Book b").query()).getResultList();
-        assertEquals(results.size(), 1);
+        String qlString = Select.from("Book b").query();
+        List results = em.createQuery(qlString).getResultList();
+        assertEquals(results.size(), 10);
     }
-    
+
     @Test
     @DisplayName("Select.from(Book.class)")
     void selectByClass() {
-        @SuppressWarnings("rawtypes") List results = em.createQuery(Select.from(Book.class).query()).getResultList();
-        assertEquals(results.size(), 1);
+        String qlString = Select.from(Book.class).query();
+        List results = em.createQuery(qlString).getResultList();
+        assertEquals(results.size(), 10);
+    }
+
+    @Test
+    @DisplayName("Select.from(Table.of(\"Book\", \"b\"))")
+    void selectByTableWithAlias() {
+        String qlString = Select.from(Table.of("Book", "b")).query();
+        List results = em.createQuery(qlString).getResultList();
+        assertEquals(results.size(), 10);
     }
     
     @Test
-    @DisplayName("Select.from(Book.class).commit(em)")
-    void selectRawWithEm() {
-        @SuppressWarnings("rawtypes") List results = Select.from(Book.class).commit(em);
-        assertEquals(results.size(), 1);
+    @DisplayName("Select.from(Table.of(Book.class, \"b\"))")
+    void selectByClassWithAlias() {
+        String qlString = Select.from(Table.of(Book.class, "b")).query();
+        List results = em.createQuery(qlString).getResultList();
+        assertEquals(results.size(), 10);
+    }
+
+    @Test
+    @DisplayName("Select.from(Table.of(\"Book\").as(\"b\"))")
+    void selectByTableWithAliasAlternative() {
+        String qlString = Select.from(Table.of("Book").as("b")).query();
+        List results = em.createQuery(qlString).getResultList();
+        assertEquals(results.size(), 10);
+    }
+
+    @Test
+    @DisplayName("Select.from(Table.of(Book.class).as(\"b\"))")
+    void selectByClassWithAliasAlternative() {
+        String qlString = Select.from(Table.of(Book.class).as("b")).query();
+        List results = em.createQuery(qlString).getResultList();
+        assertEquals(results.size(), 10);
     }
     
     @Test
-    @DisplayName("Select.from(\"Book\").commit(em, Book.class)")
-    void selectTypedWithEm() {
-        List<Book> results = Select.from("Book").commit(em, Book.class);
-        assertEquals(results.size(), 1);
+    @DisplayName("Select.from(Table.of(\"Book\"))")
+    void selectByTableWithoutAlias() {
+        String qlString = Select.from(Table.of("Book")).query();
+        List results = em.createQuery(qlString).getResultList();
+        assertEquals(results.size(), 10);
+    }
+    
+    @Test
+    @DisplayName("Select.from(Table.of(Book.class))")
+    void selectByClassWithoutAlias() {
+        String qlString = Select.from(Table.of(Book.class)).query();
+        List results = em.createQuery(qlString).getResultList();
+        assertEquals(results.size(), 10);
     }
 
 }

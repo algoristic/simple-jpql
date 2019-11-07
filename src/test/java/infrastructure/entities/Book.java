@@ -15,13 +15,13 @@ public class Book {
     @Id
     private Integer id;
     private String title;
+    private Integer year;
     private String author;
 
     public Book() {
     }
 
     public Book(Integer id, String title, String author) {
-        super();
         this.id = id;
         this.title = title;
         this.author = author;
@@ -43,12 +43,32 @@ public class Book {
         this.title = title;
     }
 
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
     public String getAuthor() {
         return author;
     }
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        sb.append("id=").append(id).append(", ");
+        sb.append("title=").append(title).append(", ");
+        sb.append("year=").append(year).append(", ");
+        sb.append("author=").append(author);
+        sb.append("}");
+        return sb.toString();
     }
 
 }

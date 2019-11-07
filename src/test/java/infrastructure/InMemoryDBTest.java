@@ -24,18 +24,18 @@ public class InMemoryDBTest extends BasicJPQLTest {
     @DisplayName("Query all entries from one table")
     public void getAllFromSingleTable() {
         List<Book> books = em.createNamedQuery("Book.getAll", Book.class).getResultList();
-        assertEquals(1, books.size());
+        assertEquals(10, books.size());
     }
     
     @Test
     @DisplayName("Create a new object and persist it")
     public void persistNewEntry() {
         em.getTransaction().begin();
-        em.persist(new Book(10, "Unit Test Hibernate/JPA with in memory H2 Database", "Marco Leweke"));
+        em.persist(new Book(11, "Unit Test Hibernate/JPA with in memory H2 Database", "Marco Leweke"));
         em.getTransaction().commit();
         List<Book> books = em.createNamedQuery("Book.getAll", Book.class).getResultList();
         assertNotNull(books);
-        assertEquals(2, books.size());
+        assertEquals(11, books.size());
     }
 
     @Test
@@ -46,7 +46,7 @@ public class InMemoryDBTest extends BasicJPQLTest {
         em.remove(book);
         em.getTransaction().commit();
         List<Book> books = em.createNamedQuery("Book.getAll", Book.class).getResultList();
-        assertEquals(0, books.size());
+        assertEquals(9, books.size());
     }
 
 }
