@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import infrastructure.entities.Book;
 
 @DisplayName("Tests providing the basic functionality of the In-Memory DB")
-public class InMemoryDBTest extends SimpleJPQLTest {
+public class InMemoryDBTest extends BasicJPQLTest {
 
     @Test
     @DisplayName("Query single object by ID")
@@ -26,12 +26,12 @@ public class InMemoryDBTest extends SimpleJPQLTest {
         List<Book> books = em.createNamedQuery("Book.getAll", Book.class).getResultList();
         assertEquals(1, books.size());
     }
-
+    
     @Test
     @DisplayName("Create a new object and persist it")
     public void persistNewEntry() {
         em.getTransaction().begin();
-        em.persist(new Book(10, "Unit Test Hibernate/JPA with in memory H2 Database"));
+        em.persist(new Book(10, "Unit Test Hibernate/JPA with in memory H2 Database", "Marco Leweke"));
         em.getTransaction().commit();
         List<Book> books = em.createNamedQuery("Book.getAll", Book.class).getResultList();
         assertNotNull(books);

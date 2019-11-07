@@ -7,11 +7,11 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import infrastructure.SimpleJPQLTest;
+import infrastructure.BasicJPQLTest;
 import infrastructure.entities.Book;
 
 @DisplayName("Testing different methods to create queries like:\nSELECT * FROM <TABLE>")
-public class SelectAllTest extends SimpleJPQLTest {
+public class SelectAllTest extends BasicJPQLTest {
     
     @Test
     @DisplayName("Select.from(\"Book\")")
