@@ -17,7 +17,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
-public abstract class SimpleJPQLTest {
+public abstract class BasicJPQLTest {
 
     private static EntityManagerFactory emf;
     protected static EntityManager em;
