@@ -5,7 +5,7 @@ public class Table {
     private String name;
     private String alias;
 
-    public Table(String name, String alias) {
+    Table(String name, String alias) {
         this.name = name;
         this.alias = alias;
     }
