@@ -34,4 +34,8 @@ public class SelectClause implements OperationalClause<Property> {
         return properties.iterator();
     }
 
+    void setParentOperation(Select parentOperation) {
+        this.parentOperation = parentOperation;
+    }
+
 }

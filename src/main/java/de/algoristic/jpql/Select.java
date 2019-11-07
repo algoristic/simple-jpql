@@ -5,40 +5,37 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Select {
+    
+    public static Select all = new Select();
 
-    private SelectClause selectClause;
-    private FromClause fromClause;
-
-    public Select(FromClause fromClause) {
+    protected SelectClause selectClause;
+    protected FromClause fromClause;
+    
+    private Select() {
         this.selectClause = new SelectClause(this);
-        this.fromClause = fromClause;
     }
-
-    public String query() {
-        StatementPreparator.prepareQuery(this);
-        StringBuilder sb = new StringBuilder();
-        sb.append(selectClause.render());
-        sb.append(fromClause.render());
-        String qlString = sb.toString();
-        return qlString;
+    
+    protected Select(SelectClause selectClause) {
+        this.selectClause = selectClause;
+        this.selectClause.setParentOperation(this);
     }
-
+    
     FromClause getFromClause() {
         return fromClause;
     }
 
-    public static Select from(String tableName) {
+    public ExecutableSelect from(String tableName) {
         RandomStringProvider randomStringProvider = new RandomStringProvider();
         QualifierParser<FromClause> nameParser = new FromClauseParser(randomStringProvider);
-        FromClause table = nameParser.parse(tableName);
-        return new Select(table);
+        FromClause fromClause = nameParser.parse(tableName);
+        return new ExecutableSelect(selectClause, fromClause);
     }
 
-    public static <T> Select from(Class<T> clazz) {
+    public <T> ExecutableSelect from(Class<T> clazz) {
         return from(clazz, new Class[] {});
     }
 
-    public static <T> Select from(Class<T> clazz, Class<?>... optionalClasses) {
+    public <T> ExecutableSelect from(Class<T> clazz, Class<?>... optionalClasses) {
         StringBuilder tables = new StringBuilder();
         String firstTableName = TableParser.determineTableName(clazz);
         tables.append(firstTableName);
@@ -51,20 +48,20 @@ public class Select {
         return from(tables.toString());
     }
     
-    public static Select from(Table table, Table... optionalTables) {
+    public ExecutableSelect from(Table table, Table... optionalTables) {
         if(optionalTables == null) {
             return from(table);
         } else {
             List<Table> tables = Stream.of(optionalTables).collect(Collectors.toList());
             tables.add(table);
             FromClause fromClause = new NonJoiningTableSource(tables);
-            return new Select(fromClause);
+            return new ExecutableSelect(selectClause, fromClause);
         }
     }
 
-    public static Select from(Table table) {
+    public ExecutableSelect from(Table table) {
         FromClause fromClause = new NonJoiningTableSource(table);
-        return new Select(fromClause);
+        return new ExecutableSelect(selectClause, fromClause);
     }
 
 }
