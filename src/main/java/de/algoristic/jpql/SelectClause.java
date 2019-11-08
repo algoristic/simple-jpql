@@ -26,7 +26,6 @@ public class SelectClause implements OperationalClause<Property> {
             for (Table table : fromClause) {
                 String alias = table.getAlias();
                 sb.append(alias)
-                    .append(" ")
                     .append(", ");
             }
         } else {
@@ -36,11 +35,11 @@ public class SelectClause implements OperationalClause<Property> {
                 sb.append(tableAlias)
                     .append(".")
                     .append(name)
-                    .append(" ")
                     .append(", ");
             }
         }
         sb = new StringBuilder(sb.substring(0, (sb.length() - 2))); //remove single trailing comma
+        sb.append(" ");
         return sb.toString();
     }
 
