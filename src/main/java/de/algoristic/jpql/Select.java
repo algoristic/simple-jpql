@@ -41,7 +41,10 @@ public class Select {
     }
 
     public static Select properties(Property property, Property... properties) {
-        List<Property> propertiesList = Stream.concat(Stream.of(property), Stream.of(properties)).collect(Collectors.toList());
+        List<Property> propertiesList = Stream.concat(
+                    Stream.of(property),
+                    Stream.of(properties))
+                .collect(Collectors.toList());
         return properties(propertiesList);
     }
 
@@ -52,19 +55,13 @@ public class Select {
     }
 
     public static Select properties(String property, String... optionalProperties) {
-        int count = 1;
-        boolean hasOptionalProperties = false;
-        if (optionalProperties != null) {
-            hasOptionalProperties = true;
-            count += optionalProperties.length;
+        if (optionalProperties == null) {
+            return properties(property);
         }
-        String[] properties = new String[count];
-        properties[0] = property;
-        if (hasOptionalProperties) {
-            for (int i = 1; i <= optionalProperties.length; i++) {
-                properties[i] = optionalProperties[i - 1];
-            }
-        }
+        String[] properties = Stream.concat(
+                    Stream.of(property),
+                    Stream.of(optionalProperties))
+                .toArray(String[]::new);
         return properties(properties);
     }
 
@@ -85,16 +82,17 @@ public class Select {
         FromClause fromClause = nameParser.parse(tableName);
         return new ExecutableSelect(selectClause, fromClause);
     }
-    
+
     public ExecutableSelect from(String table, String... optionalTables) {
-        StringBuilder tables = new StringBuilder();
-        tables.append(table);
-        if(optionalTables != null) {
-            for(String tableName: optionalTables) {
-                tables.append(", ").append(tableName);
-            }
+        if(optionalTables == null) {
+            return from(table);
+        } else {
+            String tables = Stream.concat(
+                        Stream.of(table),
+                        Stream.of(optionalTables))
+                    .collect(Collectors.joining(", "));
+            return from(tables);
         }
-        return from(tables.toString());
     }
 
     public <T> ExecutableSelect from(Class<T> clazz) {
@@ -102,31 +100,34 @@ public class Select {
     }
 
     public <T> ExecutableSelect from(Class<T> clazz, Class<?>... optionalClasses) {
-        StringBuilder tables = new StringBuilder();
-        String firstTableName = TableParser.determineTableName(clazz);
-        tables.append(firstTableName);
-        if (optionalClasses != null) {
-            for (Class<?> optionalClass : optionalClasses) {
-                String tableName = TableParser.determineTableName(optionalClass);
-                tables.append(", ").append(tableName);
-            }
-        }
-        return from(tables.toString());
-    }
-
-    public ExecutableSelect from(Table table, Table... optionalTables) {
-        if (optionalTables == null) {
-            return from(table);
+        if (optionalClasses == null) {
+            return from(clazz);
         } else {
-            List<Table> tables = Stream.concat(Stream.of(table), Stream.of(optionalTables)).collect(Collectors.toList());
-            FromClause fromClause = new NonJoiningTableSource(tables);
-            return new ExecutableSelect(selectClause, fromClause);
+            String tables = Stream.concat(
+                        Stream.of(clazz),
+                        Stream.of(optionalClasses))
+                    .map(TableParser::determineTableName)
+                    .collect(Collectors.joining(", "));
+            return from(tables);
         }
     }
 
     public ExecutableSelect from(Table table) {
         FromClause fromClause = new NonJoiningTableSource(table);
         return new ExecutableSelect(selectClause, fromClause);
+    }
+
+    public ExecutableSelect from(Table table, Table... optionalTables) {
+        if (optionalTables == null) {
+            return from(table);
+        } else {
+            List<Table> tables = Stream.concat(
+                        Stream.of(table),
+                        Stream.of(optionalTables))
+                    .collect(Collectors.toList());
+            FromClause fromClause = new NonJoiningTableSource(tables);
+            return new ExecutableSelect(selectClause, fromClause);
+        }
     }
 
 }

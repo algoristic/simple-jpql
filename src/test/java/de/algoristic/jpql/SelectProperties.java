@@ -83,6 +83,14 @@ public class SelectProperties extends BasicJPQLTest {
     }
     
     @Test
+    @DisplayName("Select.properties(\"title\", null).from(Book.class)")
+    void selectMultiplePropertyStringNullArgs() {
+        String qlString = Select.properties("title", null).from(Book.class).query();
+        List results = em.createQuery(qlString).getResultList();
+        assertEquals(10, results.size());
+    }
+    
+    @Test
     void selectSinglePropertyOfString() {
         String qlString = Select.properties(Property.of("title")).from("Book").query();
         List results = em.createQuery(qlString).getResultList();
