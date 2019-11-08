@@ -42,12 +42,40 @@ Select.properties(
 Select.property(Property.of("t", "prop")).from(Table.of(Table.class).as("t"));
 
 //select
-Select.from(Table.of(Table1.class).join(Table2.class));
+Select.all.from(Table.of(Table1.class).join(Table2.class));
 
-Select.from(Table.of(Table1.class).leftJoin(Table2.class).on(/* TODO */));
+Select.all.from(Table.of(Table1.class).leftJoin(Table2.class).on(/* TODO */));
 
 //select with conditions
-Select.from(Table.clas).where(Condition.equals(Property.of("prop1").originatingFrom(Table.class), "foo")
+Select.all.from(
+    Table.clas
+).where(
+    Condition.biggerThan("prop1", 5).and(
+    Condition.lessThan("prop1", 10));
 
-Select.from(Table.clas).where(Condition.and(Condition.equals(/* ... */), Condition.notNull(/* ... */))
+Select.all.from(
+    Table.class
+).where(
+    Condition.and(
+        Condition.biggerThan("prop1", 5),
+        Condition.lessThan("prop1", 10));
+
+Select.all.from(
+    Table.class
+).where(
+    Logic.and(
+        Condition.biggerThan("prop1", 5),
+        Condition.lessThan("prop1", 10));
+
+Select.all.from(
+    Table.class
+).where(
+    Condition.equals(Property.of("prop1").originatingFrom(Table.class), "foo");
+
+Select.all.from(
+    Table.class
+).where(
+    Condition.and(
+        Condition.equals(/* ... */),
+        Condition.notNull(/* ... */));
 ```
