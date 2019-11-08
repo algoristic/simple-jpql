@@ -26,9 +26,25 @@ public class Table {
         this.alias = alias;
         return this;
     }
+    
+    public boolean matching(Table other) {
+        return this.name.equals(other.name);
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(name)
+            .append(" ")
+            .append(alias);
+        return sb.toString();
+    }
 
     public static Table of(String name) {
-        return of(name, null);
+        Table tmpTable = TableParser.tryParse(name);
+        name = tmpTable.getName();
+        String alias = tmpTable.getAlias();
+        return of(name, alias);
     }
 
     public static Table of(String name, String alias) {

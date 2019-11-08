@@ -23,7 +23,7 @@ public class NonJoiningTableSource implements FromClause {
         for (Table table : this) {
             sb.append(table.getName()).append(" ");
             sb.append(table.getAlias()).append(" ");
-            sb.append(",");
+            sb.append(", ");
         }
         sb = new StringBuilder(sb.substring(0, (sb.length() - 2))); //remove single trailing comma
         return sb.toString();
@@ -34,4 +34,8 @@ public class NonJoiningTableSource implements FromClause {
         return tables.iterator();
     }
 
+    @Override
+    public String toString() {
+        return render();
+    }
 }

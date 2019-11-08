@@ -14,6 +14,10 @@ abstract class StatementPreparator {
                 table.setAlias(alias);
             }
         }
+        SelectClause selectClause = select.getSelectClause();
+        for(Property property: selectClause) {
+            property.completeReferences(fromClause);
+        }
     }
 
 }

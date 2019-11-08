@@ -16,64 +16,104 @@ import infrastructure.entities.Book;
 public class SelectFromMultipleTables extends BasicJPQLTest {
     
     @Test
-    @DisplayName("Select.from(\"Author, Book\")")
-    public void selectByChainedExpression() {
+    @DisplayName("Select.all.from(\"Author, Book\")")
+    public void selectByMultipleTableString() {
         String qlString = Select.all.from("Author, Book").query();
         List ls = em.createQuery(qlString).getResultList();
         assertEquals(30, ls.size()); //cross product of author (len=3) and book (len=10)
     }
     
     @Test
+    @DisplayName("Select.all.from(\"Author\", \"Book\")")
+    public void selectByMultipleTableStrings() {
+        String qlString = Select.all.from("Author", "Book").query();
+        List ls = em.createQuery(qlString).getResultList();
+        assertEquals(30, ls.size()); //cross product of author (len=3) and book (len=10)
+    }
+    
+    @Test
+    @DisplayName("Select.all.from(\"Author\", null)")
+    public void selectByMultipleTableStringsWithNull() {
+        String qlString = Select.all.from("Author", null).query();
+        List ls = em.createQuery(qlString).getResultList();
+        assertEquals(3, ls.size()); //cross product of author (len=3) and book (len=10)
+    }
+    
+    @Test
     @DisplayName("Select.from(\"Author a, Book b\")")
-    public void selectByChainedExpressionWithAliases () {
+    public void selectByMultipleTableStringWithAliases () {
         String qlString = Select.all.from("Author a, Book b").query();
         List ls = em.createQuery(qlString).getResultList();
         assertEquals(30, ls.size()); //cross product of author (len=3) and book (len=10)
     }
     
     @Test
-    @DisplayName("Select.from(\"Author a, Book\")")
-    public void selectByChainedExpressionWithMixedAliases () {
+    @DisplayName("Select.all.from(\"Author a, Book\")")
+    public void selectByMultipleTableStringMixed () {
         String qlString = Select.all.from("Author a, Book").query();
         List ls = em.createQuery(qlString).getResultList();
         assertEquals(30, ls.size()); //cross product of author (len=3) and book (len=10)
     }
     
     @Test
-    @DisplayName("Select.from(Author.class, Book.class)")
-    public void selectByChainedExpressionWithClasses() {
+    @DisplayName("Select.all.from(Author.class, Book.class)")
+    public void selectByMultipleClasses() {
         String qlString = Select.all.from(Author.class, Book.class).query();
         List ls = em.createQuery(qlString).getResultList();
         assertEquals(30, ls.size()); //cross product of author (len=3) and book (len=10)
     }
     
     @Test
-    @DisplayName("Select.from(Table.of(Author.class), Table.of(Book.class))")
-    public void selectByChainedExpressionWithTables() {
+    @DisplayName("Select.properties(Property.of(Book.class, \"title\")).from(Author.class, Book.class)")
+    void selectSinglePropertyFromMultipleClasses() {
+        String qlString = Select.properties(Property.of(Book.class, "title")).from(Author.class, Book.class).query();
+        List ls = em.createQuery(qlString).getResultList();
+        assertEquals(30, ls.size()); //cross product of author (len=3) and book (len=10)
+    }
+    
+    @Test
+    @DisplayName("Select.all.from(Author.class, null)")
+    public void selectByMultipleClassesWithNull() {
+        String qlString = Select.all.from(Author.class, null).query();
+        List ls = em.createQuery(qlString).getResultList();
+        assertEquals(3, ls.size()); //cross product of author (len=3) and book (len=10)
+    }
+    
+    @Test
+    @DisplayName("Select.all.from(Table.of(Author.class), Table.of(Book.class))")
+    public void selectByMultipleTables() {
         String qlString = Select.all.from(Table.of(Author.class), Table.of(Book.class)).query();
         List ls = em.createQuery(qlString).getResultList();
         assertEquals(30, ls.size()); //cross product of author (len=3) and book (len=10)
     }
     
     @Test
-    @DisplayName("Select.from(Table.of(Author.class, \"a\"), Table.of(Book.class, \"b\"))")
-    public void selectByExpressionTablesWithAliases() {
+    @DisplayName("Select.all.from(Table.of(Author.class), null)")
+    public void selectByMultipleTablesWithNull() {
+        String qlString = Select.all.from(Table.of(Author.class), null).query();
+        List ls = em.createQuery(qlString).getResultList();
+        assertEquals(3, ls.size()); //cross product of author (len=3) and book (len=10)
+    }
+    
+    @Test
+    @DisplayName("Select.all.from(Table.of(Author.class, \"a\"), Table.of(Book.class, \"b\"))")
+    public void selectByMultipleTablesWithAliases() {
         String qlString = Select.all.from(Table.of(Author.class, "a"), Table.of(Book.class, "b")).query();
         List ls = em.createQuery(qlString).getResultList();
         assertEquals(30, ls.size()); //cross product of author (len=3) and book (len=10)
     }
     
     @Test
-    @DisplayName("Select.from(Table.of(Author.class, \"a\"), Table.of(Book.class))")
-    public void selectByExpressionTablesWithAliasesMixed() {
+    @DisplayName("Select.all.from(Table.of(Author.class, \"a\"), Table.of(Book.class))")
+    public void selectByMultipleTablesMixed() {
         String qlString = Select.all.from(Table.of(Author.class, "a"), Table.of(Book.class)).query();
         List ls = em.createQuery(qlString).getResultList();
         assertEquals(30, ls.size()); //cross product of author (len=3) and book (len=10)
     }
     
     @Test
-    @DisplayName("Select.from(Table.of(Author.class), Table.of(Book.class).as(\"b\"))")
-    public void selectByExpressionTablesWithAliasesMixedAlternative() {
+    @DisplayName("Select.all.from(Table.of(Author.class), Table.of(Book.class).as(\"b\"))")
+    public void selectByMultipleTablesMixedAlternative() {
         String qlString = Select.all.from(Table.of(Author.class), Table.of(Book.class).as("b")).query();
         List ls = em.createQuery(qlString).getResultList();
         assertEquals(30, ls.size()); //cross product of author (len=3) and book (len=10)
