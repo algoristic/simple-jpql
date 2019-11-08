@@ -20,7 +20,7 @@ class FromClauseParser implements QualifierParser<FromClause> {
             Table table = tableParser.parse(tableToken);
             tables.add(table);
         }
-        return new NonJoiningTableSource(tables);
+        return new FromClause(tables);
     }
 
 }

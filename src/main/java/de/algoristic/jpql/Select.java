@@ -113,7 +113,7 @@ public class Select {
     }
 
     public ExecutableSelect from(Table table) {
-        FromClause fromClause = new NonJoiningTableSource(table);
+        FromClause fromClause = new FromClause(table);
         return new ExecutableSelect(selectClause, fromClause);
     }
 
@@ -125,7 +125,7 @@ public class Select {
                         Stream.of(table),
                         Stream.of(optionalTables))
                     .collect(Collectors.toList());
-            FromClause fromClause = new NonJoiningTableSource(tables);
+            FromClause fromClause = new FromClause(tables);
             return new ExecutableSelect(selectClause, fromClause);
         }
     }

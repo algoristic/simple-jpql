@@ -1,6 +1,8 @@
 package de.algoristic.jpql;
 
 public class ExecutableSelect extends Select {
+    
+    private WhereClause whereClause;
 
     public ExecutableSelect(SelectClause selectClause, FromClause fromClause) {
         super(selectClause);
