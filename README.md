@@ -8,7 +8,7 @@ Select.from("<class>::simpleName");
 Select.from(Table.class);
 
 //select specific properties
-Select.properties({
+Select.properties(new String[] {
     "prop1",
     "prop2",
     "prop3"
@@ -21,23 +21,23 @@ List<String> props = //define properties
 Select.properties(props).from(Table.class);
 
 //select specific properties from specific table
-Select.properties({
+Select.properties(
     "t.prop1",
     "t.prop2",
     "t.prop3"
-}).from("table t");
+).from("table t");
 
-Select.properties({
+Select.properties(
     Property.of("t", "prop1"),
     Property.of("t", "prop2"),
     Property.of("t", "prop3")
-}).from(Table.class, "t");
+).from(Table.class, "t");
 
-Select.properties({
+Select.properties(
     Property.of(Table.class, "prop1"),
     Property.of("prop2").originatingFrom(Table.class),
     Property.of(Table.class, "prop3")
-}).from(Table.class);
+).from(Table.class);
 
 Select.property(Property.of("t", "prop")).from(Table.of(Table.class).as("t"));
 
