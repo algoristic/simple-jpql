@@ -18,24 +18,8 @@ public class FromClause implements OperationalClause<Table> {
     }
 
     @Override
-    public String render() {
-        StringBuilder sb = new StringBuilder("FROM").append(" ");
-        for (Table table : this) {
-            sb.append(table.toString())
-                .append(", ");
-        }
-        sb = new StringBuilder(sb.substring(0, (sb.length() - 2))); //remove single trailing comma
-        return sb.toString();
-    }
-
-    @Override
     public Iterator<Table> iterator() {
         return tables.iterator();
-    }
-
-    @Override
-    public String toString() {
-        return render();
     }
 
 }

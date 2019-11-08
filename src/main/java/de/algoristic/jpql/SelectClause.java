@@ -19,38 +19,16 @@ public class SelectClause implements OperationalClause<Property> {
     }
 
     @Override
-    public String render() {
-        StringBuilder sb = new StringBuilder("SELECT").append(" ");
-        if (properties.size() == 0) {
-            FromClause fromClause = parentOperation.getFromClause();
-            for (Table table : fromClause) {
-                String alias = table.getAlias();
-                sb.append(alias)
-                    .append(", ");
-            }
-        } else {
-            for (Property property : properties) {
-                String tableAlias = property.getTableAlias();
-                String name = property.getName();
-                sb.append(tableAlias)
-                    .append(".")
-                    .append(name)
-                    .append(", ");
-            }
-        }
-        sb = new StringBuilder(sb.substring(0, (sb.length() - 2))); //remove single trailing comma
-        sb.append(" ");
-        return sb.toString();
-    }
-
-    @Override
     public Iterator<Property> iterator() {
         return properties.iterator();
     }
 
-    @Override
-    public String toString() {
-        return render();
+    Select getParentOperation() {
+        return parentOperation;
+    }
+    
+    boolean isSelectAll() {
+        return (properties.size() == 0);
     }
 
     void setParentOperation(Select parentOperation) {
