@@ -7,6 +7,7 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import de.algoristic.jpql.sql.Table;
 import infrastructure.BasicJPQLTest;
 import infrastructure.entities.Author;
 import infrastructure.entities.Book;

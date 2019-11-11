@@ -1,7 +1,10 @@
-package de.algoristic.jpql;
+package de.algoristic.jpql.parse;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.algoristic.jpql.Property;
+import de.algoristic.jpql.sql.SelectClause;
 
 public class SelectClauseParser implements QualifierParser<SelectClause> {
     

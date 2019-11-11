@@ -1,9 +1,12 @@
-package de.algoristic.jpql;
+package de.algoristic.jpql.util;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
+
+import de.algoristic.jpql.sql.FromClause;
+import de.algoristic.jpql.sql.Table;
 
 public class RandomStringProvider {
 
@@ -30,7 +33,7 @@ public class RandomStringProvider {
         return rnd;
     }
     
-    void init(FromClause fromClause) {
+    public void init(FromClause fromClause) {
         for(Table table: fromClause) {
             String alias = table.getAlias();
             if(alias != null) {
@@ -39,7 +42,7 @@ public class RandomStringProvider {
         }
     }
     
-    void reserve(String s) {
+    public void reserve(String s) {
         assignedStrings.add(s);
     }
 

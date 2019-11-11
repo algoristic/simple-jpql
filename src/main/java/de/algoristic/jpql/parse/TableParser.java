@@ -1,6 +1,9 @@
-package de.algoristic.jpql;
+package de.algoristic.jpql.parse;
 
-class TableParser implements QualifierParser<Table> {
+import de.algoristic.jpql.sql.Table;
+import de.algoristic.jpql.util.RandomStringProvider;
+
+public class TableParser implements QualifierParser<Table> {
 
     private RandomStringProvider rsp;
     
@@ -21,7 +24,7 @@ class TableParser implements QualifierParser<Table> {
         return table;
     }
     
-    static Table tryParse(String s) {
+    public static Table tryParse(String s) {
         s = s.trim();
         String[] tokens = s.split(" ");
         String name = tokens[0]; //TODO: NPE? => in case of "" as tablename
@@ -32,7 +35,7 @@ class TableParser implements QualifierParser<Table> {
         return new Table(name, alias);
     }
 
-    static String determineTableName(Class<?> clazz) {
+    public static String determineTableName(Class<?> clazz) {
         return clazz.getSimpleName();
     }
 

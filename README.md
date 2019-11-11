@@ -77,5 +77,6 @@ Select.all.from(
 ).where(
     Condition.and(
         Condition.equals(/* ... */),
-        Condition.notNull(/* ... */));
+        Condition.notNull(/* ... */),
+        Condition.biggerThan(/* ... */));
 ```

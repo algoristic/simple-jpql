@@ -6,6 +6,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import de.algoristic.jpql.parse.FromClauseParser;
+import de.algoristic.jpql.parse.PropertyParser;
+import de.algoristic.jpql.parse.QualifierParser;
+import de.algoristic.jpql.parse.SelectClauseParser;
+import de.algoristic.jpql.parse.TableParser;
+import de.algoristic.jpql.sql.FromClause;
+import de.algoristic.jpql.sql.SelectClause;
+import de.algoristic.jpql.sql.SelectCommand;
+import de.algoristic.jpql.sql.Table;
+import de.algoristic.jpql.util.RandomStringProvider;
+
 public class Select {
 
     public static Select all = new Select();
@@ -22,11 +33,11 @@ public class Select {
         this.selectClause.setParentOperation(this);
     }
 
-    FromClause getFromClause() {
+    public FromClause getFromClause() {
         return fromClause;
     }
 
-    SelectClause getSelectClause() {
+    public SelectClause getSelectClause() {
         return selectClause;
     }
 
@@ -76,14 +87,14 @@ public class Select {
         return new Select(selectClause);
     }
 
-    public ExecutableSelect from(String tableName) {
+    public SelectCommand from(String tableName) {
         RandomStringProvider randomStringProvider = new RandomStringProvider();
         QualifierParser<FromClause> nameParser = new FromClauseParser(randomStringProvider);
         FromClause fromClause = nameParser.parse(tableName);
-        return new ExecutableSelect(selectClause, fromClause);
+        return new SelectCommand(selectClause, fromClause);
     }
 
-    public ExecutableSelect from(String table, String... optionalTables) {
+    public SelectCommand from(String table, String... optionalTables) {
         if(optionalTables == null) {
             return from(table);
         } else {
@@ -95,11 +106,11 @@ public class Select {
         }
     }
 
-    public <T> ExecutableSelect from(Class<T> clazz) {
+    public <T> SelectCommand from(Class<T> clazz) {
         return from(clazz, new Class[] {});
     }
 
-    public <T> ExecutableSelect from(Class<T> clazz, Class<?>... optionalClasses) {
+    public <T> SelectCommand from(Class<T> clazz, Class<?>... optionalClasses) {
         if (optionalClasses == null) {
             return from(clazz);
         } else {
@@ -112,12 +123,12 @@ public class Select {
         }
     }
 
-    public ExecutableSelect from(Table table) {
+    public SelectCommand from(Table table) {
         FromClause fromClause = new FromClause(table);
-        return new ExecutableSelect(selectClause, fromClause);
+        return new SelectCommand(selectClause, fromClause);
     }
 
-    public ExecutableSelect from(Table table, Table... optionalTables) {
+    public SelectCommand from(Table table, Table... optionalTables) {
         if (optionalTables == null) {
             return from(table);
         } else {
@@ -126,7 +137,7 @@ public class Select {
                         Stream.of(optionalTables))
                     .collect(Collectors.toList());
             FromClause fromClause = new FromClause(tables);
-            return new ExecutableSelect(selectClause, fromClause);
+            return new SelectCommand(selectClause, fromClause);
         }
     }
 

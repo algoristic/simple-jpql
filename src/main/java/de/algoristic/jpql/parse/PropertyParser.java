@@ -1,4 +1,7 @@
-package de.algoristic.jpql;
+package de.algoristic.jpql.parse;
+
+import de.algoristic.jpql.Property;
+import de.algoristic.jpql.sql.UnboundedProperty;
 
 public class PropertyParser implements QualifierParser<Property> {
 

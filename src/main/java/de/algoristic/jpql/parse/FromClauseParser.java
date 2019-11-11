@@ -1,9 +1,13 @@
-package de.algoristic.jpql;
+package de.algoristic.jpql.parse;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class FromClauseParser implements QualifierParser<FromClause> {
+import de.algoristic.jpql.sql.FromClause;
+import de.algoristic.jpql.sql.Table;
+import de.algoristic.jpql.util.RandomStringProvider;
+
+public class FromClauseParser implements QualifierParser<FromClause> {
 
     private QualifierParser<Table> tableParser;
 

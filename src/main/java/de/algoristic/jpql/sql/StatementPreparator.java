@@ -1,5 +1,8 @@
-package de.algoristic.jpql;
+package de.algoristic.jpql.sql;
 
+import de.algoristic.jpql.Property;
+import de.algoristic.jpql.Select;
+import de.algoristic.jpql.util.RandomStringProvider;
 
 abstract class StatementPreparator {
     

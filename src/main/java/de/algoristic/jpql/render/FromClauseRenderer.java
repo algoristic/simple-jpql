@@ -1,7 +1,9 @@
-package de.algoristic.jpql;
+package de.algoristic.jpql.render;
 
+import de.algoristic.jpql.sql.FromClause;
+import de.algoristic.jpql.sql.Table;
 
-public class FromClauseRenderer {
+public class FromClauseRenderer extends FullClauseRenderer {
     
     private FromClause fromClause;
 
@@ -9,6 +11,7 @@ public class FromClauseRenderer {
         this.fromClause = fromClause;
     }
 
+    @Override
     public String render() {
         StringBuilder sb = new StringBuilder("FROM").append(" ");
         for (Table table : fromClause) {
@@ -16,6 +19,7 @@ public class FromClauseRenderer {
                 .append(", ");
         }
         sb = new StringBuilder(sb.substring(0, (sb.length() - 2))); //remove single trailing comma
+        sb.append(" ");
         return sb.toString();
     }
 

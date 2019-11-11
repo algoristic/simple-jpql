@@ -1,15 +1,16 @@
-package de.algoristic.jpql;
+package de.algoristic.jpql.sql;
 
+import de.algoristic.jpql.Property;
 
 public class BoundedProperty extends Property {
     
     private Table table;
     
-    protected BoundedProperty(String name, Class<?> binding) {
+    public BoundedProperty(String name, Class<?> binding) {
         this(name, Table.of(binding));
     }
 
-    protected BoundedProperty(String name, Table table) {
+    public BoundedProperty(String name, Table table) {
         super(name);
         this.table = table;
     }
@@ -20,7 +21,7 @@ public class BoundedProperty extends Property {
     }
 
     @Override
-    protected void completeReferences(FromClause fromClause) {
+    public void completeReferences(FromClause fromClause) {
         for(Table other: fromClause) {
             if(table.matching(other)) {
                 String alias = other.getAlias();

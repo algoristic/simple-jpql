@@ -1,11 +1,13 @@
-package de.algoristic.jpql;
+package de.algoristic.jpql.sql;
+
+import de.algoristic.jpql.parse.TableParser;
 
 public class Table {
 
     private String name;
     private String alias;
 
-    Table(String name, String alias) {
+    public Table(String name, String alias) {
         this.name = name;
         this.alias = alias;
     }
@@ -18,7 +20,7 @@ public class Table {
         return alias;
     }
 
-    void setAlias(String alias) {
+    public void setAlias(String alias) {
         this.alias = alias;
     }
 

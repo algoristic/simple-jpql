@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import de.algoristic.jpql.sql.Table;
 import infrastructure.BasicJPQLTest;
 import infrastructure.entities.Book;
 

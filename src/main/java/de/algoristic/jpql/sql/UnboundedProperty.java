@@ -1,4 +1,6 @@
-package de.algoristic.jpql;
+package de.algoristic.jpql.sql;
+
+import de.algoristic.jpql.Property;
 
 public class UnboundedProperty extends Property {
 
@@ -19,7 +21,7 @@ public class UnboundedProperty extends Property {
     }
 
     @Override
-    protected void completeReferences(FromClause fromClause) {
+    public void completeReferences(FromClause fromClause) {
         if(tableAlias == null) {
             Table reference = fromClause.iterator().next(); //TODO: catch NPE, when fromClause not initialized or empty
             tableAlias = reference.getAlias();
