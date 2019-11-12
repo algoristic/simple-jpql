@@ -1,4 +1,4 @@
-package de.algoristic.jpql.sql;
+package de.algoristic.jpql;
 
 import de.algoristic.jpql.parse.TableParser;
 import de.algoristic.jpql.render.Renderable;

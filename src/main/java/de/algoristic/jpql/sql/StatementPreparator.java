@@ -2,6 +2,7 @@ package de.algoristic.jpql.sql;
 
 import de.algoristic.jpql.Condition;
 import de.algoristic.jpql.Property;
+import de.algoristic.jpql.Table;
 import de.algoristic.jpql.util.RandomStringProvider;
 
 abstract class StatementPreparator {

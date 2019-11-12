@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
+import de.algoristic.jpql.Table;
 import de.algoristic.jpql.sql.FromClause;
-import de.algoristic.jpql.sql.Table;
 
 public class RandomStringProvider {
 

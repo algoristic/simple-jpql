@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
 
+import de.algoristic.jpql.Table;
 import de.algoristic.jpql.render.FromClauseRenderer;
 import de.algoristic.jpql.render.Renderer;
 

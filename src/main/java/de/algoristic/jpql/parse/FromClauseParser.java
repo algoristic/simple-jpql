@@ -3,8 +3,8 @@ package de.algoristic.jpql.parse;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.algoristic.jpql.Table;
 import de.algoristic.jpql.sql.FromClause;
-import de.algoristic.jpql.sql.Table;
 import de.algoristic.jpql.util.RandomStringProvider;
 
 public class FromClauseParser implements QualifierParser<FromClause> {

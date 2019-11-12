@@ -1,6 +1,6 @@
 package de.algoristic.jpql.parse;
 
-import de.algoristic.jpql.sql.Table;
+import de.algoristic.jpql.Table;
 import de.algoristic.jpql.util.RandomStringProvider;
 
 public class TableParser implements QualifierParser<Table> {

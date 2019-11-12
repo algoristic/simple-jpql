@@ -1,6 +1,7 @@
 package de.algoristic.jpql.sql;
 
 import de.algoristic.jpql.Property;
+import de.algoristic.jpql.Table;
 
 public class BoundedProperty extends Property {
     

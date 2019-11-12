@@ -1,6 +1,7 @@
 package de.algoristic.jpql.sql;
 
 import de.algoristic.jpql.Property;
+import de.algoristic.jpql.Table;
 import de.algoristic.jpql.render.Renderer;
 
 public class FullTableProperty extends Property {

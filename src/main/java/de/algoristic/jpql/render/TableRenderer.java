@@ -1,6 +1,6 @@
 package de.algoristic.jpql.render;
 
-import de.algoristic.jpql.sql.Table;
+import de.algoristic.jpql.Table;
 
 public class TableRenderer implements Renderer {
 

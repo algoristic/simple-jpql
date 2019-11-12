@@ -10,7 +10,11 @@ public enum PropertyConditions {
     LESS_THAN("<"),
     LESS_EQUALS("<="),
     GREATER_THEN(">"),
-    GREATER_EQUALS(">=");
+    GREATER_EQUALS(">="),
+    LIKE("LIKE"),
+    BETWEEN("BETWEEN"),
+    IS_NULL("IS"),
+    IN("IN");
 
     private String operator;
 

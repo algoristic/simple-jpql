@@ -7,7 +7,6 @@ import de.algoristic.jpql.render.Renderable;
 import de.algoristic.jpql.render.Renderer;
 import de.algoristic.jpql.sql.BoundedProperty;
 import de.algoristic.jpql.sql.FromClause;
-import de.algoristic.jpql.sql.Table;
 import de.algoristic.jpql.sql.UnboundedProperty;
 
 public abstract class Property implements Renderable {

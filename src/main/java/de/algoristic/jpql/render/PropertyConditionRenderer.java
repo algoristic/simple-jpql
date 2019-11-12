@@ -16,6 +16,7 @@ public class PropertyConditionRenderer extends ConditionRenderer {
     @Override
     public String render() {
         StringBuilder sb = new StringBuilder();
+        sb.append("(");
         Property property = condition.getProperty();
         Renderer propertyRenderer = property.getRenderer();
         sb.append(propertyRenderer.render());
@@ -23,6 +24,7 @@ public class PropertyConditionRenderer extends ConditionRenderer {
         sb.append(" ").append(operator).append(" ");
         Object value = condition.getValue();
         sb.append(value);
+        sb.append(")");
         return sb.toString();
     }
 
