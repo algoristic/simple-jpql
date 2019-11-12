@@ -1,8 +1,11 @@
 package de.algoristic.jpql.sql;
 
 import de.algoristic.jpql.parse.TableParser;
+import de.algoristic.jpql.render.Renderable;
+import de.algoristic.jpql.render.Renderer;
+import de.algoristic.jpql.render.TableRenderer;
 
-public class Table {
+public class Table implements Renderable {
 
     private String name;
     private String alias;
@@ -35,11 +38,12 @@ public class Table {
     
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(name)
-            .append(" ")
-            .append(alias);
-        return sb.toString();
+        return this.getRenderer().render();
+    }
+    
+    @Override
+    public Renderer getRenderer() {
+        return new TableRenderer(this);
     }
 
     public static Table of(String name) {

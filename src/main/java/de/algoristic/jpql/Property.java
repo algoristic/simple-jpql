@@ -2,12 +2,15 @@ package de.algoristic.jpql;
 
 import de.algoristic.jpql.parse.PropertyParser;
 import de.algoristic.jpql.parse.QualifierParser;
+import de.algoristic.jpql.render.PropertyRenderer;
+import de.algoristic.jpql.render.Renderable;
+import de.algoristic.jpql.render.Renderer;
 import de.algoristic.jpql.sql.BoundedProperty;
 import de.algoristic.jpql.sql.FromClause;
 import de.algoristic.jpql.sql.Table;
 import de.algoristic.jpql.sql.UnboundedProperty;
 
-public abstract class Property {
+public abstract class Property implements Renderable {
 
     private static QualifierParser<Property> propertyParser = new PropertyParser();
 
@@ -23,11 +26,12 @@ public abstract class Property {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getTableAlias())
-            .append(".")
-            .append(name);
-        return sb.toString();
+        return getRenderer().render();
+    }
+
+    @Override
+    public Renderer getRenderer() {
+        return new PropertyRenderer(this);
     }
 
     abstract public String getTableAlias();

@@ -1,5 +1,7 @@
 package de.algoristic.jpql.render;
 
+import java.util.stream.Collectors;
+
 import de.algoristic.jpql.Condition;
 import de.algoristic.jpql.conditions.LogicalCondition;
 
@@ -14,12 +16,14 @@ public class LogicalConditionRenderer extends ConditionRenderer {
     @Override
     public String render() {
         StringBuilder sb = new StringBuilder();
-        Condition leftHand = logicalCondition.getLeftHandArgument();
-        Renderer leftArgRenderer = leftHand.getRenderer();
-        sb.append(leftArgRenderer.render());
-        Condition rightHand = logicalCondition.getRightHandArgument();
-        Renderer rightArgRenderer = rightHand.getRenderer();
-        sb.append(rightArgRenderer.render());
+        sb.append("(");
+        String operator = logicalCondition.getOperator();
+        String subConditions = logicalCondition.getConditions()
+                    .map(Condition::getRenderer)
+                    .map(Renderer::render)
+                .collect(Collectors.joining(" " + operator + " "));
+        sb.append(subConditions);
+        sb.append(")").append(" ");
         return sb.toString();
     }
 

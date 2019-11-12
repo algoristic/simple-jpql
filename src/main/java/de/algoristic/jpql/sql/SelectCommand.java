@@ -2,7 +2,7 @@ package de.algoristic.jpql.sql;
 
 import de.algoristic.jpql.Condition;
 import de.algoristic.jpql.Select;
-import de.algoristic.jpql.render.LanguageRenderer;
+import de.algoristic.jpql.render.SQLRenderer;
 
 public class SelectCommand extends Select {
 
@@ -25,7 +25,7 @@ public class SelectCommand extends Select {
 
     public String query() {
         StatementPreparator.prepareQuery(this);
-        LanguageRenderer renderer = new LanguageRenderer(this);
+        SQLRenderer renderer = new SQLRenderer(this);
         return renderer.render();
     }
 

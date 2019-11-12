@@ -1,12 +1,12 @@
 package de.algoristic.jpql.sql;
 
+import de.algoristic.jpql.Condition;
 import de.algoristic.jpql.Property;
-import de.algoristic.jpql.Select;
 import de.algoristic.jpql.util.RandomStringProvider;
 
 abstract class StatementPreparator {
     
-    public static void prepareQuery(Select select) {
+    public static void prepareQuery(SelectCommand select) {
         FromClause fromClause = select.getFromClause();
         RandomStringProvider rsp = new RandomStringProvider();
         rsp.init(fromClause);
@@ -20,6 +20,10 @@ abstract class StatementPreparator {
         SelectClause selectClause = select.getSelectClause();
         for(Property property: selectClause) {
             property.completeReferences(fromClause);
+        }
+        WhereClause whereClause = select.getWhereClause();
+        for(Condition condition: whereClause) {
+            condition.completeReferences(fromClause);
         }
     }
 

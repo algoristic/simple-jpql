@@ -10,7 +10,7 @@ import de.algoristic.jpql.sql.Table;
 
 public class RandomStringProvider {
 
-    private static final int DEF_LENGTH = 8;
+    private static final int DEF_LENGTH = 1;
 
     private List<String> assignedStrings = new ArrayList<>();
 
@@ -28,6 +28,7 @@ public class RandomStringProvider {
                 //TODO: throw error??? => this should not happen!
             }
             rnd = RandomStringUtils.randomAlphabetic(length);
+            rnd = rnd.toLowerCase();
         } while (assignedStrings.contains(rnd));
         assignedStrings.add(rnd);
         return rnd;
@@ -47,7 +48,7 @@ public class RandomStringProvider {
     }
 
     private static int calculateTries(int stringLength) {
-        return 100; //TODO: return useful value
+        return 25; //TODO: return useful value
     }
 
 }

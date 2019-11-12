@@ -3,6 +3,7 @@ package de.algoristic.jpql.sql;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
 
 import de.algoristic.jpql.Property;
 import de.algoristic.jpql.Select;
@@ -25,8 +26,26 @@ public class SelectClause implements OperationalClause<Property> {
     }
 
     @Override
+    public Renderer getRenderer() {
+        if (properties.size() < 1) {
+            return new SelectAllClauseRenderer(this);
+        } else {
+            return new SelectClauseRenderer(this);
+        }
+    }
+
+    @Override
+    public Stream<Property> stream() {
+        return properties.stream();
+    }
+    
+    @Override
     public Iterator<Property> iterator() {
         return properties.iterator();
+    }
+
+    public void setProperties(List<Property> properties) {
+        this.properties = properties;
     }
 
     public Select getParentOperation() {
@@ -35,15 +54,6 @@ public class SelectClause implements OperationalClause<Property> {
 
     public void setParentOperation(Select parentOperation) {
         this.parentOperation = parentOperation;
-    }
-
-    @Override
-    public Renderer getRenderer() {
-        if (properties.size() < 1) {
-            return new SelectAllClauseRenderer(this);
-        } else {
-            return new SelectClauseRenderer(this);
-        }
     }
 
 }

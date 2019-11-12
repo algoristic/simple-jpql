@@ -1,44 +1,52 @@
 package de.algoristic.jpql.conditions;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
 import de.algoristic.jpql.Condition;
 import de.algoristic.jpql.render.LogicalConditionRenderer;
 import de.algoristic.jpql.render.Renderer;
+import de.algoristic.jpql.sql.FromClause;
 
-public enum LogicalCondition implements Condition {
-
-    AND("AND"),
-    OR("OR");
+public class LogicalCondition implements Condition {
 
     private String operator;
+    private List<Condition> conditions;
 
-    private Condition leftHandArgument;
-    private Condition rightHandArgument;
+    private LogicalCondition() {
+        this.conditions = new ArrayList<>();
+    }
 
-    private LogicalCondition(String operator) {
+    public LogicalCondition(String operator, Condition leftHandArgument, Condition rightHandArgument) {
+        this();
         this.operator = operator;
+        conditions.add(leftHandArgument);
+        conditions.add(rightHandArgument);
     }
 
-    public Condition getLeftHandArgument() {
-        return leftHandArgument;
+    protected LogicalCondition(String operator, List<Condition> conditions) {
+        this.operator = operator;
+        this.conditions = conditions;
     }
 
-    public Condition getRightHandArgument() {
-        return rightHandArgument;
-    }
-    
     @Override
     public Renderer getRenderer() {
         return new LogicalConditionRenderer(this);
     }
 
-    String getOperator() {
+    @Override
+    public String getOperator() {
         return operator;
     }
 
-    public Condition apply(Condition firstCondition, Condition secondCondition) {
-        this.leftHandArgument = firstCondition;
-        this.rightHandArgument = secondCondition;
-        return this;
+    @Override
+    public void completeReferences(FromClause fromClause) {
+        conditions.forEach(condition -> condition.completeReferences(fromClause));
+    }
+
+    public Stream<Condition> getConditions() {
+        return conditions.stream();
     }
 
 }

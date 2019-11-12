@@ -5,11 +5,11 @@ import de.algoristic.jpql.sql.SelectClause;
 import de.algoristic.jpql.sql.SelectCommand;
 import de.algoristic.jpql.sql.WhereClause;
 
-public class LanguageRenderer {
+public class SQLRenderer {
 
     private SelectCommand selectCommand;
 
-    public LanguageRenderer(SelectCommand executableSelect) {
+    public SQLRenderer(SelectCommand executableSelect) {
         this.selectCommand = executableSelect;
     }
 
@@ -18,12 +18,12 @@ public class LanguageRenderer {
         { //render select-clause
             SelectClause selectClause = selectCommand.getSelectClause();
             Renderer selectClauseRenderer = selectClause.getRenderer();
-            sb.append(selectClauseRenderer.render());
+            sb.append(selectClauseRenderer.render()).append(" ");
         }
         { //render from-clause
             FromClause fromClause = selectCommand.getFromClause();
             Renderer fromClauseRenderer = fromClause.getRenderer();
-            sb.append(fromClauseRenderer.render());
+            sb.append(fromClauseRenderer.render()).append(" ");
         }
         { //render where-clause
             WhereClause whereClause = selectCommand.getWhereClause();
