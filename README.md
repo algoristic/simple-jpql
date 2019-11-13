@@ -1,82 +1,44 @@
 # simple-jpql
 
-Plan to use this like:
+## Overview
+
+**Simple-jpql** provides a wrapper around the JPQL query-syntax defined by JPA.
 
 ```java
-//select complete table
-Select.from("<class>::simpleName");
-Select.from(Table.class);
-
-//select specific properties
-Select.properties(new String[] {
-    "prop1",
-    "prop2",
-    "prop3"
-}).from(Table.class);
-
-Select.properties("prop1, prop2, prop3").from(Table.class);
-
-List<String> props = //define properties
-
-Select.properties(props).from(Table.class);
-
-//select specific properties from specific table
-Select.properties(
-    "t.prop1",
-    "t.prop2",
-    "t.prop3"
-).from("table t");
-
-Select.properties(
-    Property.of("t", "prop1"),
-    Property.of("t", "prop2"),
-    Property.of("t", "prop3")
-).from(Table.class, "t");
-
-Select.properties(
-    Property.of(Table.class, "prop1"),
-    Property.of("prop2").originatingFrom(Table.class),
-    Property.of(Table.class, "prop3")
-).from(Table.class);
-
-Select.property(Property.of("t", "prop")).from(Table.of(Table.class).as("t"));
-
-//select
-Select.all.from(Table.of(Table1.class).join(Table2.class));
-
-Select.all.from(Table.of(Table1.class).leftJoin(Table2.class).on(/* TODO */));
-
-//select with conditions
-Select.all.from(
-    Table.clas
-).where(
-    Condition.biggerThan("prop1", 5).and(
-    Condition.lessThan("prop1", 10));
-
-Select.all.from(
-    Table.class
-).where(
-    Condition.and(
-        Condition.biggerThan("prop1", 5),
-        Condition.lessThan("prop1", 10));
-
-Select.all.from(
-    Table.class
-).where(
-    Logic.and(
-        Condition.biggerThan("prop1", 5),
-        Condition.lessThan("prop1", 10));
-
-Select.all.from(
-    Table.class
-).where(
-    Condition.equals(Property.of("prop1").originatingFrom(Table.class), "foo");
-
-Select.all.from(
-    Table.class
-).where(
-    Condition.and(
-        Condition.equals(/* ... */),
-        Condition.notNull(/* ... */),
-        Condition.biggerThan(/* ... */));
+Table books = Table.of(Book.class);
+Table authors = Table.of(Author.class);
+Select.properties(books.all())
+    .from(books, authors)
+    .where(books.property("author").equals(authors.property("name")));
 ```
+
+```java
+Table books = Table.of(Book.class);
+Select.all
+    .from(books)
+    .where(Condition.and(
+        Condition.property("title").like("%Dunwich%"),
+        books.property("author").like("%Lovecraft")
+    ));
+```
+
+```java
+Select.all.from(Books.class);
+```
+
+```java
+Table books = Table.of(Book.class);
+Select.properties(
+        books.property("id"),
+        books.property("title"))
+    .from(books)
+    .where(books.property("author").like("%Lovecraft"));
+```
+## Plans
+
+- distinct date/time/datetime datatype
+- direct use with EntityManager (to provide not only SQL-literals but queries with complex parameters)
+- JOINS
+- FUNCTIONS
+- GROUP BY and HAVING
+- ORDER BY
