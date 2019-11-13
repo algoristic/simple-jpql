@@ -104,7 +104,7 @@ public class SelectWithConditions extends BasicJPQLTest {
     
     @Test
     @DisplayName(".properties(books.all()).from(books, authors).where(books.property(\"author\").equals(authors.property(\"name\")))")
-    void test_2() {
+    void selectAllFromOneTableByNaturalJoin() {
         Table books = Table.of(Book.class);
         Table authors = Table.of(Author.class);
         String qlString = Select.properties(books.all()).from(books, authors).where(books.property("author").equals(authors.property("name"))).query();
