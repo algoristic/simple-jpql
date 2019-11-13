@@ -94,19 +94,24 @@ public class SelectWithConditions extends BasicJPQLTest {
     }
     
     @Test
+    @DisplayName(".where(Condition.property(books.property(\"author\")).like(\"%Lovecraft\"))")
     void test() {
         Table books = Table.of(Book.class);
-        Property author = Property.of(books, "author");
-        Select.all.from(books).where(Condition.property(author).like("%Lovecraft"));
+        String qlString = Select.all.from(books).where(Condition.property(books.property("author")).like("%Lovecraft")).query();
+        List resultList = em.createQuery(qlString).getResultList();
+        assertEquals(4, resultList.size());
     }
     
-    @Test void test_2() {
+    @Test
+    @DisplayName(".properties(books.all()).from(books, authors).where(books.property(\"author\").equals(authors.property(\"name\")))")
+    void test_2() {
         Table books = Table.of(Book.class);
         Table authors = Table.of(Author.class);
         String qlString = Select.properties(books.all()).from(books, authors).where(books.property("author").equals(authors.property("name"))).query();
-        logger.info(qlString);
         List resultList = em.createQuery(qlString).getResultList();
-        logger.info(resultList);
+        assertEquals(9, resultList.size()); //9 because one author=null
+        Object firstResult = resultList.get(0);
+        assertTrue(firstResult instanceof Book);
     }
 
 }
