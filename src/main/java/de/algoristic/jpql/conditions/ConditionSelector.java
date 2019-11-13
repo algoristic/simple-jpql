@@ -12,6 +12,7 @@ import de.algoristic.jpql.render.values.DualValueWrapper;
 import de.algoristic.jpql.render.values.ListWrapper;
 import de.algoristic.jpql.render.values.NullWrapper;
 import de.algoristic.jpql.render.values.NumberWrapper;
+import de.algoristic.jpql.render.values.PropertyWrapper;
 import de.algoristic.jpql.render.values.SQLDisplayWrapper;
 import de.algoristic.jpql.render.values.StringWrapper;
 
@@ -34,26 +35,50 @@ public class ConditionSelector {
     public Condition equals(Boolean value) {
         return applyWrapper(PropertyConditions.EQUALS, new BooleanWrapper(value));
     }
+    
+    public Condition equals(Property value) {
+        return propertyCondition(PropertyConditions.EQUALS, value);
+    }
 
-    //TODO: date conditions // string conditions
+    //TODO: date conditions
     public Condition lessThan(Number value) {
         return numberCondition(PropertyConditions.LESS_THAN, value);
     }
-
+    
+    public Condition lessThan(Property value) {
+        return propertyCondition(PropertyConditions.LESS_THAN, value);
+    }
+    
     public Condition lessEquals(Number value) {
         return numberCondition(PropertyConditions.LESS_EQUALS, value);
+    }
+
+    public Condition lessEquals(Property value) {
+        return propertyCondition(PropertyConditions.LESS_EQUALS, value);
     }
 
     public Condition greaterThan(Number value) {
         return numberCondition(PropertyConditions.GREATER_THEN, value);
     }
 
+    public Condition greaterThan(Property value) {
+        return propertyCondition(PropertyConditions.GREATER_THEN, value);
+    }
+
     public Condition greaterEquals(Number value) {
         return numberCondition(PropertyConditions.GREATER_EQUALS, value);
     }
 
+    public Condition greaterEquals(Property value) {
+        return propertyCondition(PropertyConditions.GREATER_EQUALS, value);
+    }
+
     public Condition like(String value) {
         return stringCondition(PropertyConditions.LIKE, value);
+    }
+
+    public Condition like(Property value) {
+        return propertyCondition(PropertyConditions.LIKE, value);
     }
 
     public Condition between(String firstValue, String secondValue) {
@@ -65,6 +90,12 @@ public class ConditionSelector {
     public Condition between(Number firstValue, Number secondValue) {
         SQLDisplayWrapper firstValueWrapper = NumberWrapper.getNumberWrapper(firstValue);
         SQLDisplayWrapper secondValueWrapper = NumberWrapper.getNumberWrapper(secondValue);
+        return applyDualWrapper(firstValueWrapper, secondValueWrapper);
+    }
+
+    public Condition between(Property firstValue, Property secondValue) {
+        SQLDisplayWrapper firstValueWrapper = new PropertyWrapper(firstValue);
+        SQLDisplayWrapper secondValueWrapper = new PropertyWrapper(secondValue);
         return applyDualWrapper(firstValueWrapper, secondValueWrapper);
     }
 
@@ -92,6 +123,10 @@ public class ConditionSelector {
 
     private Condition stringCondition(PropertyConditions condition, String value) {
         return applyWrapper(condition, new StringWrapper(value));
+    }
+    
+    private Condition propertyCondition(PropertyConditions condition, Property value) {
+        return applyWrapper(condition, new PropertyWrapper(value));
     }
     
     private Condition applyListWrapper(SQLDisplayWrapper listWrapper) {

@@ -1,6 +1,7 @@
 package de.algoristic.jpql;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -16,25 +17,17 @@ import infrastructure.entities.Book;
 public class SelectFromMultipleTables extends BasicJPQLTest {
     
     @Test
-    @DisplayName("*.from(\"Author, Book\")")
+    @DisplayName("*.from(Table.of(\"Author\"), Table.of(Book.class))")
     public void selectByMultipleTableString() {
-        String qlString = Select.all.from("Author, Book").query();
+        String qlString = Select.all.from(Table.of("Author"), Table.of(Book.class)).query();
         List ls = em.createQuery(qlString).getResultList();
         assertEquals(30, ls.size()); //cross product of author (len=3) and book (len=10)
     }
     
     @Test
-    @DisplayName("*.from(\"Author\", \"Book\")")
-    public void selectByMultipleTableStrings() {
-        String qlString = Select.all.from("Author", "Book").query();
-        List ls = em.createQuery(qlString).getResultList();
-        assertEquals(30, ls.size()); //cross product of author (len=3) and book (len=10)
-    }
-    
-    @Test
-    @DisplayName("*.from(\"Author\", null)")
+    @DisplayName("*.from(Table.of(\"Author\"), null)")
     public void selectByMultipleTableStringsWithNull() {
-        String qlString = Select.all.from("Author", null).query();
+        String qlString = Select.all.from(Table.of("Author"), null).query();
         List ls = em.createQuery(qlString).getResultList();
         assertEquals(3, ls.size()); //cross product of author (len=3) and book (len=10)
     }
@@ -42,15 +35,7 @@ public class SelectFromMultipleTables extends BasicJPQLTest {
     @Test
     @DisplayName("*.from(\"Author a, Book b\")")
     public void selectByMultipleTableStringWithAliases () {
-        String qlString = Select.all.from("Author a, Book b").query();
-        List ls = em.createQuery(qlString).getResultList();
-        assertEquals(30, ls.size()); //cross product of author (len=3) and book (len=10)
-    }
-    
-    @Test
-    @DisplayName("*.from(\"Author a, Book\")")
-    public void selectByMultipleTableStringMixed () {
-        String qlString = Select.all.from("Author a, Book").query();
+        String qlString = Select.all.from(Table.of("Author a"), Table.of("Book b")).query();
         List ls = em.createQuery(qlString).getResultList();
         assertEquals(30, ls.size()); //cross product of author (len=3) and book (len=10)
     }
@@ -117,6 +102,16 @@ public class SelectFromMultipleTables extends BasicJPQLTest {
         String qlString = Select.all.from(Table.of(Author.class), Table.of(Book.class).as("b")).query();
         List ls = em.createQuery(qlString).getResultList();
         assertEquals(30, ls.size()); //cross product of author (len=3) and book (len=10)
+    }
+    
+    @Test
+    @DisplayName("*.properties(Table.of(Author.class).all()).from(Table.of(Author.class), Table.of(Book.class))")
+    public void selectAllFromOneTableByMultiple() {
+        String qlString = Select.properties(Table.of(Author.class).all()).from(Table.of(Author.class), Table.of(Book.class)).query();
+        List ls = em.createQuery(qlString).getResultList();
+        assertEquals(30, ls.size()); //cross product of author (len=3) and book (len=10)
+        Object firstResult = ls.get(0);
+        assertTrue(firstResult instanceof Author);
     }
 
 }

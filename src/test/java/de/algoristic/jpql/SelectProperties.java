@@ -15,15 +15,16 @@ import infrastructure.BasicJPQLTest;
 import infrastructure.entities.Book;
 
 @SuppressWarnings("rawtypes")
-@DisplayName("Queries resembling: SELECT a.prop_1, a.prop_2, ... FROM table a")
+@DisplayName("Queries resembling: SELECT a.prop_1, [a.prop_n] FROM table a")
 public class SelectProperties extends BasicJPQLTest {
 
     static Logger logger = LogManager.getLogger(SelectProperties.class);
 
     @Test
-    @DisplayName("*.properties(\"title\")*")
+    @DisplayName("*.properties(books.property(\"title\"))*")
     void selectSinglePropertyString() {
-        String qlString = Select.properties("title").from(Book.class).query();
+        Table books = Table.of(Book.class);
+        String qlString = Select.properties(books.property("title")).from(Book.class).query();
         List results = em.createQuery(qlString).getResultList();
         assertEquals(10, results.size());
         Object firstResult = results.get(0);
@@ -31,9 +32,9 @@ public class SelectProperties extends BasicJPQLTest {
     }
 
     @Test
-    @DisplayName("*.properties(\"b.title\")*")
+    @DisplayName("*.properties(Property.of(\"b.title\"))*")
     void selectSinglePropertyWithAliasString() {
-        String qlString = Select.properties("b.title").from(Table.of("Book b")).query();
+        String qlString = Select.properties(Property.of("b.title")).from(Table.of("Book b")).query();
         List results = em.createQuery(qlString).getResultList();
         assertEquals(10, results.size());
         Object firstResult = results.get(0);
@@ -41,9 +42,9 @@ public class SelectProperties extends BasicJPQLTest {
     }
 
     @Test
-    @DisplayName("*.properties(new String[] { \"title\" })*")
+    @DisplayName("*.properties(new Property[] { Property.of(\"title\") })*")
     void selectSinglePropertyStringArray() {
-        String qlString = Select.properties(new String[] { "title" }).from(Book.class).query();
+        String qlString = Select.properties(new Property[] { Property.of("title") }).from(Book.class).query();
         List results = em.createQuery(qlString).getResultList();
         assertEquals(10, results.size());
         Object firstResult = results.get(0);
@@ -51,59 +52,33 @@ public class SelectProperties extends BasicJPQLTest {
     }
 
     @Test
-    @DisplayName("*.properties(\"title, author\")*")
-    void selectMultiplePropertyString() {
-        String qlString = Select.properties("title, author").from(Book.class).query();
-        List results = em.createQuery(qlString).getResultList();
-        assertEquals(10, results.size());
-    }
-
-    @Test
-    @DisplayName("*.properties(\"b.title, b.author\")*")
-    void selectMultiplePropertyWithAliasString() {
-        String qlString = Select.properties("b.title, b.author").from(Table.of("Book", "b")).query();
-        List results = em.createQuery(qlString).getResultList();
-        assertEquals(10, results.size());
-    }
-
-    @Test
-    @DisplayName("*.properties(new String[] { \"title\", \"author\" })*")
+    @DisplayName("*.properties(new Property[] { Property.of(\"title\"), Property.of(\"author\") })*")
     void selectMultiplePropertyStringArray() {
-        String qlString = Select.properties(new String[] { "title", "author" }).from(Book.class).query();
+        String qlString = Select.properties(new Property[] { Property.of("title"), Property.of("author") }).from(Book.class).query();
         List results = em.createQuery(qlString).getResultList();
         assertEquals(10, results.size());
     }
 
     @Test
-    @DisplayName("*.properties(\"title\", \"author\")*")
+    @DisplayName("*.properties(Property.of(\"title\"), Property.of(\"author\"))*")
     void selectMultiplePropertyStringVarArgs() {
-        String qlString = Select.properties("title", "author").from(Book.class).query();
+        String qlString = Select.properties(Property.of("title"), Property.of("author")).from(Book.class).query();
         List results = em.createQuery(qlString).getResultList();
         assertEquals(10, results.size());
     }
     
     @Test
-    @DisplayName("*.properties(\"title\", null)*")
+    @DisplayName("*.properties(Property.of(\"title\"), null)*")
     void selectMultiplePropertyStringNullArgs() {
-        String qlString = Select.properties("title", null).from(Book.class).query();
+        String qlString = Select.properties(Property.of("title"), null).from(Book.class).query();
         List results = em.createQuery(qlString).getResultList();
         assertEquals(10, results.size());
-    }
-    
-    @Test
-    @DisplayName("*.properties(Property.of(\"title\"))*")
-    void selectSinglePropertyOfString() {
-        String qlString = Select.properties(Property.of("title")).from("Book").query();
-        List results = em.createQuery(qlString).getResultList();
-        assertEquals(10, results.size());
-        Object firstResult = results.get(0);
-        assertTrue(firstResult instanceof String);
     }
     
     @Test
     @DisplayName("*.properties(Property.of(Book.class, \"title\"))*")
     void selectSinglePropertyOfClassAndName() {
-        String qlString = Select.properties(Property.of(Book.class, "title")).from("Book").query();
+        String qlString = Select.properties(Property.of(Book.class, "title")).from(Book.class).query();
         List results = em.createQuery(qlString).getResultList();
         assertEquals(10, results.size());
         Object firstResult = results.get(0);
@@ -123,7 +98,7 @@ public class SelectProperties extends BasicJPQLTest {
     @Test
     @DisplayName("*.properties(Property.of(Table.of(Book.class), \"title\"))*")
     void selectSinglePropertyOfTableAndName() {
-        String qlString = Select.properties(Property.of(Table.of(Book.class), "title")).from("Book").query();
+        String qlString = Select.properties(Property.of(Table.of(Book.class), "title")).from(Book.class).query();
         List results = em.createQuery(qlString).getResultList();
         assertEquals(10, results.size());
         Object firstResult = results.get(0);

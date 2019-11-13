@@ -1,16 +1,12 @@
 package de.algoristic.jpql.sql;
 
-import de.algoristic.jpql.Property;
 import de.algoristic.jpql.Table;
 import de.algoristic.jpql.render.Renderer;
 
-public class FullTableProperty extends Property {
-
-    private Table table;
+public class FullTableProperty extends BoundedProperty {
 
     public FullTableProperty(Table table) {
-        super("*");
-        this.table = table;
+        super("*", table);
     }
 
     @Override
@@ -23,16 +19,6 @@ public class FullTableProperty extends Property {
             }
 
         };
-    }
-
-    @Override
-    public String getTableAlias() {
-        return table.getAlias();
-    }
-
-    @Override
-    public void preProcess(QueryInformation queryInfo) {
-        //this property gets initialized, when all references are already set
     }
 
 }

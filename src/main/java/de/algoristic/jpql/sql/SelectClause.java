@@ -15,7 +15,7 @@ public class SelectClause implements OperationalClause<Property> {
 
     private Select parentOperation;
     private List<Property> properties;
-
+    
     public SelectClause(Select parentOperation) {
         this.parentOperation = parentOperation;
         this.properties = new ArrayList<>();
@@ -38,7 +38,7 @@ public class SelectClause implements OperationalClause<Property> {
     public Stream<Property> stream() {
         return properties.stream();
     }
-    
+
     @Override
     public Iterator<Property> iterator() {
         return properties.iterator();

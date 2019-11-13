@@ -5,7 +5,7 @@ import de.algoristic.jpql.Table;
 
 public class BoundedProperty extends Property {
     
-    private Table table;
+    protected Table table;
     
     public BoundedProperty(String name, Class<?> binding) {
         this(name, Table.of(binding));

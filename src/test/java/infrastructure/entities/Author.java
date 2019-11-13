@@ -40,7 +40,7 @@ public class Author {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         sb.append("id=").append(id).append(", ");
-        sb.append("name").append(name);
+        sb.append("name=").append(name);
         sb.append("}");
         return sb.toString();
     };

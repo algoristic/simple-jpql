@@ -11,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import infrastructure.BasicJPQLTest;
+import infrastructure.entities.Author;
 import infrastructure.entities.Book;
 
 @SuppressWarnings("rawtypes")
@@ -22,7 +23,8 @@ public class SelectWithConditions extends BasicJPQLTest {
     @Test
     @DisplayName("*.where(Condition.of(\"id\").equals(2))")
     void selectSpecificId() {
-        String qlString = Select.properties("title").from(Book.class).where(Condition.property("id").equals(2)).query();
+        Table books = Table.of(Book.class);
+        String qlString = Select.properties(books.property("title")).from(books).where(Condition.property("id").equals(2)).query();
         List resultList = em.createQuery(qlString).getResultList();
         assertEquals(1, resultList.size());
         assertTrue(resultList.get(0) instanceof String);
@@ -31,7 +33,8 @@ public class SelectWithConditions extends BasicJPQLTest {
     @Test
     @DisplayName("*.where(Condition.and(Condition.of(\"id\").greaterThan(2), Condition.of(\"id\").lessThan(5)))")
     void selectIdRange() {
-        String qlString = Select.all.from(Book.class).where(Condition.and(Condition.property("id").greaterThan(2), Condition.property("id").lessThan(5))).query();
+        Table books = Table.of(Book.class);
+        String qlString = Select.all.from(books).where(Condition.and(Condition.property("id").greaterThan(2), Condition.property("id").lessThan(5))).query();
         List resultList = em.createQuery(qlString).getResultList();
         assertEquals(2, resultList.size());
         assertTrue(resultList.get(0) instanceof Book);
@@ -40,7 +43,8 @@ public class SelectWithConditions extends BasicJPQLTest {
     @Test
     @DisplayName("*.where(Condition.of(\"author\").equals(\"Frank Schätzing\"))")
     void selectByTitle() {
-        String qlString = Select.properties("title").from(Book.class).where(Condition.property("author").equals("Frank Schätzing")).query();
+        Table books = Table.of(Book.class);
+        String qlString = Select.properties(books.property("title")).from(books).where(Condition.property("author").equals("Frank Schätzing")).query();
         List resultList = em.createQuery(qlString).getResultList();
         assertEquals(1, resultList.size());
         String result = (String) resultList.get(0);
@@ -58,7 +62,8 @@ public class SelectWithConditions extends BasicJPQLTest {
     @Test
     @DisplayName("*.where(Condition.of(\"author\").isNull())")
     void selectWithIsNull() {
-        String qlString = Select.properties("title").from("Book").where(Condition.property("author").isNull()).query();
+        Table books = Table.of(Book.class);
+        String qlString = Select.properties(books.property("title")).from(books).where(Condition.property("author").isNull()).query();
         List resultList = em.createQuery(qlString).getResultList();
         assertEquals(1, resultList.size());
         assertEquals(resultList.get(0), "Berserk Vol. 4");
@@ -93,6 +98,15 @@ public class SelectWithConditions extends BasicJPQLTest {
         Table books = Table.of(Book.class);
         Property author = Property.of(books, "author");
         Select.all.from(books).where(Condition.property(author).like("%Lovecraft"));
+    }
+    
+    @Test void test_2() {
+        Table books = Table.of(Book.class);
+        Table authors = Table.of(Author.class);
+        String qlString = Select.properties(books.all()).from(books, authors).where(books.property("author").equals(authors.property("name"))).query();
+        logger.info(qlString);
+        List resultList = em.createQuery(qlString).getResultList();
+        logger.info(resultList);
     }
 
 }

@@ -4,6 +4,7 @@ import de.algoristic.jpql.parse.TableParser;
 import de.algoristic.jpql.render.Renderable;
 import de.algoristic.jpql.render.Renderer;
 import de.algoristic.jpql.render.TableRenderer;
+import de.algoristic.jpql.sql.FullTableProperty;
 
 public class Table implements Renderable {
 
@@ -31,16 +32,24 @@ public class Table implements Renderable {
         this.alias = alias;
         return this;
     }
-    
+
     public boolean matching(Table other) {
         return this.name.equals(other.name);
     }
+
+    public Property property(String name) {
+        return Property.of(this, name);
+    }
     
+    public Property all() {
+        return new FullTableProperty(this);
+    }
+
     @Override
     public String toString() {
         return this.getRenderer().render();
     }
-    
+
     @Override
     public Renderer getRenderer() {
         return new TableRenderer(this);

@@ -15,22 +15,6 @@ import infrastructure.entities.Book;
 public class SelectAllTest extends BasicJPQLTest {
 
     @Test
-    @DisplayName("*.all.from(\"Book\")")
-    void selectByClassName() {
-        String qlString = Select.all.from("Book").query();
-        List results = em.createQuery(qlString).getResultList();
-        assertEquals(results.size(), 10);
-    }
-
-    @Test
-    @DisplayName("*.all.from(\"Book b\")")
-    void selectByClassNameWithAlias() {
-        String qlString = Select.all.from("Book b").query();
-        List results = em.createQuery(qlString).getResultList();
-        assertEquals(results.size(), 10);
-    }
-
-    @Test
     @DisplayName("*.all.from(Book.class)")
     void selectByClass() {
         String qlString = Select.all.from(Book.class).query();

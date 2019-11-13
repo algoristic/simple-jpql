@@ -8,6 +8,10 @@ public class PropertyWrapper implements SQLDisplayWrapper {
 
     private Property property;
 
+    public PropertyWrapper(Property property) {
+        this.property = property;
+    }
+
     @Override
     public Object getValue() {
         Renderer renderer = property.getRenderer();

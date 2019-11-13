@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import de.algoristic.jpql.Property;
+
 public class ListWrapper extends LiteralValueWrapper {
 
     private List<SQLDisplayWrapper> values;
@@ -29,11 +31,14 @@ public class ListWrapper extends LiteralValueWrapper {
             //in the same class impossible, this is the only way to provide a user-firendly interface.
             //(see ConditionSelector.in)
             //
-            //also there are only 3 (non-complex) datatypes to be assigned to a list, namely string, number and date...
+            //also there are only 3 (non-complex) datatypes to be assigned to a list:
+            //namely another property, string, number and date...
             if (elem instanceof String) {
                 wrappers = getWrappedStrings(values);
             } else if (elem instanceof Number) {
                 wrappers = getWrappedNumbers(values);
+            } else if (elem instanceof Property) {
+                wrappers = getWrappedProperties(values);
             } else {
                 wrappers = getWrappedObjects(values);
             }
@@ -56,6 +61,10 @@ public class ListWrapper extends LiteralValueWrapper {
 
     private static List<SQLDisplayWrapper> getWrappedObjects(List<Object> objectValues) {
         return getWrapped(objectValues, obj -> obj, ComplexDataWrapper::new);
+    }
+    
+    private static List<SQLDisplayWrapper> getWrappedProperties(List<Object> propertyValues) {
+        return getWrapped(propertyValues, val -> (Property) val, PropertyWrapper::new);
     }
     
     private static List<SQLDisplayWrapper> getWrappedStrings(List<Object> stringValues) {
