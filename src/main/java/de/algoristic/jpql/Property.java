@@ -6,7 +6,7 @@ import de.algoristic.jpql.render.PropertyRenderer;
 import de.algoristic.jpql.render.Renderable;
 import de.algoristic.jpql.render.Renderer;
 import de.algoristic.jpql.sql.BoundedProperty;
-import de.algoristic.jpql.sql.FromClause;
+import de.algoristic.jpql.sql.QueryInformation;
 import de.algoristic.jpql.sql.UnboundedProperty;
 
 public abstract class Property implements Renderable {
@@ -35,7 +35,7 @@ public abstract class Property implements Renderable {
 
     abstract public String getTableAlias();
 
-    public abstract void completeReferences(FromClause fromClause);
+    public abstract void preProcess(QueryInformation queryInfo);
 
     public static Property of(String qualifier) {
         return propertyParser.parse(qualifier);

@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 import de.algoristic.jpql.Condition;
 import de.algoristic.jpql.render.LogicalConditionRenderer;
 import de.algoristic.jpql.render.Renderer;
-import de.algoristic.jpql.sql.FromClause;
+import de.algoristic.jpql.sql.QueryInformation;
 
 public class LogicalCondition implements Condition {
 
@@ -41,8 +41,8 @@ public class LogicalCondition implements Condition {
     }
 
     @Override
-    public void completeReferences(FromClause fromClause) {
-        conditions.forEach(condition -> condition.completeReferences(fromClause));
+    public void preProcess(QueryInformation queryInfo) {
+        conditions.forEach(condition -> condition.preProcess(queryInfo));
     }
 
     public Stream<Condition> getConditions() {

@@ -22,11 +22,15 @@ public class FromClause implements OperationalClause<Table> {
         this.tables = tables;
     }
 
+    List<Table> getTables() {
+        return tables;
+    }
+
     @Override
     public Iterator<Table> iterator() {
         return tables.iterator();
     }
-    
+
     @Override
     public Renderer getRenderer() {
         return new FromClauseRenderer(this);

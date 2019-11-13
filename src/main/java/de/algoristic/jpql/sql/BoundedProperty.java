@@ -22,8 +22,8 @@ public class BoundedProperty extends Property {
     }
 
     @Override
-    public void completeReferences(FromClause fromClause) {
-        for(Table other: fromClause) {
+    public void preProcess(QueryInformation queryInfo) {
+        for(Table other: queryInfo.getAffectedTables()) {
             if(table.matching(other)) {
                 String alias = other.getAlias();
                 table.setAlias(alias);

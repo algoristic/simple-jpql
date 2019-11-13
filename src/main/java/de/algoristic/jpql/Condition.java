@@ -3,18 +3,18 @@ package de.algoristic.jpql;
 import de.algoristic.jpql.conditions.ConditionSelector;
 import de.algoristic.jpql.conditions.LogicalConditions;
 import de.algoristic.jpql.render.Renderable;
-import de.algoristic.jpql.sql.FromClause;
+import de.algoristic.jpql.sql.QueryInformation;
 
 public interface Condition extends Renderable {
 
     String getOperator();
 
-    void completeReferences(FromClause fromClause);
+    void preProcess(QueryInformation queryInfo);
 
     public static Condition and(Condition firstCondition, Condition secondCondition) {
         return LogicalConditions.AND.apply(firstCondition, secondCondition);
     }
-    
+
     public static Condition and(Condition firstCondition, Condition secondCondition, Condition... optionalConditions) {
         return LogicalConditions.AND.apply(firstCondition, secondCondition, optionalConditions);
     }
@@ -22,40 +22,24 @@ public interface Condition extends Renderable {
     public static Condition or(Condition firstCondition, Condition secondCondition) {
         return LogicalConditions.OR.apply(firstCondition, secondCondition);
     }
-    
+
     public static Condition or(Condition firstCondition, Condition secondCondition, Condition... optionalConditions) {
         return LogicalConditions.OR.apply(firstCondition, secondCondition, optionalConditions);
     }
 
-    public static ConditionSelector of(String property) {
-        return of(Property.of(property));
+    public static ConditionSelector property(String property) {
+        return property(Property.of(property));
     }
 
-    public static ConditionSelector condition(String property) {
-        return of(property);
+    public static ConditionSelector property(String tableAlias, String property) {
+        return property(Property.of(tableAlias, property));
     }
 
-    public static ConditionSelector of(String tableAlias, String property) {
-        return of(Property.of(tableAlias, property));
+    public static ConditionSelector property(Class<?> table, String property) {
+        return property(Property.of(table, property));
     }
 
-    public static ConditionSelector condition(String tableAlias, String property) {
-        return of(tableAlias, property);
-    }
-
-    public static ConditionSelector of(Class<?> table, String property) {
-        return of(Property.of(table, property));
-    }
-
-    public static ConditionSelector condition(Class<?> table, String property) {
-        return of(table, property);
-    }
-
-    public static ConditionSelector of(Property property) {
-        return condition(property);
-    }
-
-    public static ConditionSelector condition(Property property) {
+    public static ConditionSelector property(Property property) {
         return new ConditionSelector(property);
     }
 

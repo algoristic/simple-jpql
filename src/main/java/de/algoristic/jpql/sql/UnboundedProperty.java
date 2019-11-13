@@ -22,9 +22,9 @@ public class UnboundedProperty extends Property {
     }
 
     @Override
-    public void completeReferences(FromClause fromClause) {
+    public void preProcess(QueryInformation queryInfo) {
         if(tableAlias == null) {
-            Table reference = fromClause.iterator().next(); //TODO: catch NPE, when fromClause not initialized or empty
+            Table reference = queryInfo.getAffectedTables().get(0);
             tableAlias = reference.getAlias();
         }
     }

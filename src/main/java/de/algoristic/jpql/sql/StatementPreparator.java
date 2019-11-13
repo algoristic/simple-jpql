@@ -18,13 +18,15 @@ abstract class StatementPreparator {
                 table.setAlias(alias);
             }
         }
+        QueryInformation queryInfo = new QueryInformation();
+        queryInfo.setTableData(fromClause);
         SelectClause selectClause = select.getSelectClause();
         for(Property property: selectClause) {
-            property.completeReferences(fromClause);
+            property.preProcess(queryInfo);
         }
         WhereClause whereClause = select.getWhereClause();
         for(Condition condition: whereClause) {
-            condition.completeReferences(fromClause);
+            condition.preProcess(queryInfo);
         }
     }
 

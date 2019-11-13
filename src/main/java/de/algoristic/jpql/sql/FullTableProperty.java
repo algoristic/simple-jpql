@@ -31,7 +31,7 @@ public class FullTableProperty extends Property {
     }
 
     @Override
-    public void completeReferences(FromClause fromClause) {
+    public void preProcess(QueryInformation queryInfo) {
         //this property gets initialized, when all references are already set
     }
 
