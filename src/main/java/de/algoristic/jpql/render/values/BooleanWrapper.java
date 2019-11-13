@@ -1,6 +1,6 @@
 package de.algoristic.jpql.render.values;
 
-public class BooleanWrapper implements SQLDisplayWrapper {
+public class BooleanWrapper extends LiteralValueWrapper {
 
     private Boolean value;
 
@@ -10,7 +10,7 @@ public class BooleanWrapper implements SQLDisplayWrapper {
     }
 
     @Override
-    public Object getValue() {
+    protected Object getLiteralValue() {
         if (value == null) {
             return "null";
         } else {

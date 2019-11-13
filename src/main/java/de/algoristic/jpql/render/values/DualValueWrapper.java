@@ -1,6 +1,6 @@
 package de.algoristic.jpql.render.values;
 
-public class DualValueWrapper<T extends SQLDisplayWrapper> implements SQLDisplayWrapper {
+public class DualValueWrapper<T extends SQLDisplayWrapper> extends LiteralValueWrapper {
 
     T firstValue;
     T secondValue;
@@ -11,7 +11,7 @@ public class DualValueWrapper<T extends SQLDisplayWrapper> implements SQLDisplay
     }
 
     @Override
-    public Object getValue() {
+    protected Object getLiteralValue() {
         StringBuilder sb = new StringBuilder();
         sb.append(firstValue.getValue());
         sb.append(" AND ");

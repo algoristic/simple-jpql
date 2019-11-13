@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class ListWrapper implements SQLDisplayWrapper {
+public class ListWrapper extends LiteralValueWrapper {
 
     private List<SQLDisplayWrapper> values;
 
@@ -40,9 +40,9 @@ public class ListWrapper implements SQLDisplayWrapper {
             return new ListWrapper(wrappers);
         }
     }
-
+    
     @Override
-    public Object getValue() {
+    protected Object getLiteralValue() {
         StringBuilder sb = new StringBuilder();
         sb.append("(");
         String renderedList = values.stream()
@@ -53,7 +53,7 @@ public class ListWrapper implements SQLDisplayWrapper {
         sb.append(")");
         return sb.toString();
     }
-    
+
     private static List<SQLDisplayWrapper> getWrappedObjects(List<Object> objectValues) {
         return getWrapped(objectValues, obj -> obj, ComplexDataWrapper::new);
     }

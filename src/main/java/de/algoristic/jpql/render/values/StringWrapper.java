@@ -1,6 +1,6 @@
 package de.algoristic.jpql.render.values;
 
-public class StringWrapper implements SQLDisplayWrapper {
+public class StringWrapper extends LiteralValueWrapper {
 
     private String string;
 
@@ -9,7 +9,7 @@ public class StringWrapper implements SQLDisplayWrapper {
     }
 
     @Override
-    public Object getValue() {
+    protected Object getLiteralValue() {
         return "\'" + string + "\'";
     }
 

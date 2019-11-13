@@ -1,6 +1,8 @@
 package de.algoristic.jpql.render.values;
 
-public interface SQLDisplayWrapper {
+import de.algoristic.jpql.render.PreProcessable;
+
+public interface SQLDisplayWrapper extends PreProcessable {
 
     Object getValue();
 

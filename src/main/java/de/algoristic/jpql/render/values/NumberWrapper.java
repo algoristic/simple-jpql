@@ -5,7 +5,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public abstract class NumberWrapper implements SQLDisplayWrapper {
+public abstract class NumberWrapper extends LiteralValueWrapper {
 
     private static enum SupportedTypes {
 
@@ -38,7 +38,7 @@ public abstract class NumberWrapper implements SQLDisplayWrapper {
     }
 
     @Override
-    public Object getValue() {
+    protected Object getLiteralValue() {
         StringBuilder sb = new StringBuilder();
         sb.append(number);
         sb.append(getSuffix());

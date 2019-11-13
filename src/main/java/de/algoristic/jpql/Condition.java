@@ -2,14 +2,12 @@ package de.algoristic.jpql;
 
 import de.algoristic.jpql.conditions.ConditionSelector;
 import de.algoristic.jpql.conditions.LogicalConditions;
+import de.algoristic.jpql.render.PreProcessable;
 import de.algoristic.jpql.render.Renderable;
-import de.algoristic.jpql.sql.QueryInformation;
 
-public interface Condition extends Renderable {
+public interface Condition extends Renderable, PreProcessable {
 
     String getOperator();
-
-    void preProcess(QueryInformation queryInfo);
 
     public static Condition and(Condition firstCondition, Condition secondCondition) {
         return LogicalConditions.AND.apply(firstCondition, secondCondition);
