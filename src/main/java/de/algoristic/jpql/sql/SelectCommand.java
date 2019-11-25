@@ -31,9 +31,5 @@ public class SelectCommand extends Select {
         SQLRenderer renderer = new SQLRenderer(this);
         return renderer.render();
     }
-    
-    public Query query(EntityManager em) {
-        
-    }
 
 }
