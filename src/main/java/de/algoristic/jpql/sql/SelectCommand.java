@@ -1,5 +1,8 @@
 package de.algoristic.jpql.sql;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
 import de.algoristic.jpql.Condition;
 import de.algoristic.jpql.Select;
 import de.algoristic.jpql.render.SQLRenderer;
@@ -27,6 +30,10 @@ public class SelectCommand extends Select {
         StatementPreparator.prepareQuery(this);
         SQLRenderer renderer = new SQLRenderer(this);
         return renderer.render();
+    }
+    
+    public Query query(EntityManager em) {
+        
     }
 
 }

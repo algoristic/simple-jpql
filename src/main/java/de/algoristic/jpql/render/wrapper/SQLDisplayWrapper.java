@@ -1,4 +1,4 @@
-package de.algoristic.jpql.render.values;
+package de.algoristic.jpql.render.wrapper;
 
 import de.algoristic.jpql.render.PreProcessable;
 

@@ -3,6 +3,7 @@ package de.algoristic.jpql;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -108,6 +109,7 @@ public class SelectWithConditions extends BasicJPQLTest {
         Table books = Table.of(Book.class);
         Table authors = Table.of(Author.class);
         String qlString = Select.properties(books.all()).from(books, authors).where(books.property("author").equals(authors.property("name"))).query();
+        logger.info(qlString);
         List resultList = em.createQuery(qlString).getResultList();
         assertEquals(9, resultList.size()); //9 because one author=null
         Object firstResult = resultList.get(0);

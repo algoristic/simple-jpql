@@ -1,4 +1,4 @@
-package de.algoristic.jpql.render.values;
+package de.algoristic.jpql.render.wrapper;
 
 public class BooleanWrapper extends LiteralValueWrapper {
 
