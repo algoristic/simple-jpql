@@ -7,14 +7,14 @@ import java.util.stream.Stream;
 
 import de.algoristic.jpql.Condition;
 import de.algoristic.jpql.Property;
-import de.algoristic.jpql.render.values.BooleanWrapper;
-import de.algoristic.jpql.render.values.DualValueWrapper;
-import de.algoristic.jpql.render.values.ListWrapper;
-import de.algoristic.jpql.render.values.NullWrapper;
-import de.algoristic.jpql.render.values.NumberWrapper;
-import de.algoristic.jpql.render.values.PropertyWrapper;
-import de.algoristic.jpql.render.values.SQLDisplayWrapper;
-import de.algoristic.jpql.render.values.StringWrapper;
+import de.algoristic.jpql.render.wrapper.BooleanWrapper;
+import de.algoristic.jpql.render.wrapper.DualValueWrapper;
+import de.algoristic.jpql.render.wrapper.ListWrapper;
+import de.algoristic.jpql.render.wrapper.NullWrapper;
+import de.algoristic.jpql.render.wrapper.NumberWrapper;
+import de.algoristic.jpql.render.wrapper.PropertyWrapper;
+import de.algoristic.jpql.render.wrapper.SQLDisplayWrapper;
+import de.algoristic.jpql.render.wrapper.StringWrapper;
 
 public class ConditionSelector {
 

@@ -2,7 +2,7 @@ package de.algoristic.jpql.conditions;
 
 import de.algoristic.jpql.Condition;
 import de.algoristic.jpql.Property;
-import de.algoristic.jpql.render.values.SQLDisplayWrapper;
+import de.algoristic.jpql.render.wrapper.SQLDisplayWrapper;
 
 public enum PropertyConditions {
 

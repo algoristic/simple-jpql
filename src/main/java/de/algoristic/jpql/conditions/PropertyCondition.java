@@ -4,7 +4,7 @@ import de.algoristic.jpql.Condition;
 import de.algoristic.jpql.Property;
 import de.algoristic.jpql.render.PropertyConditionRenderer;
 import de.algoristic.jpql.render.Renderer;
-import de.algoristic.jpql.render.values.SQLDisplayWrapper;
+import de.algoristic.jpql.render.wrapper.SQLDisplayWrapper;
 import de.algoristic.jpql.sql.QueryInformation;
 
 public class PropertyCondition implements Condition {
