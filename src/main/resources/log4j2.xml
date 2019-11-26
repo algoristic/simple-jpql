@@ -6,7 +6,10 @@
     </Console>
   </Appenders>
   <Loggers>
-    <Root level="info" additivity="false">
+    <Logger name="de.algoristic.jpql" level="debug" additivity="false">
+      <AppenderRef ref="console" />
+    </Logger>
+    <Root level="warn" additivity="false">
       <AppenderRef ref="console" />
     </Root>
   </Loggers>
