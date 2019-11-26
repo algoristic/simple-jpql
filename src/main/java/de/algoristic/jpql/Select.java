@@ -61,22 +61,9 @@ public class Select {
             return properties(propertiesList);
         }
     }
-
-    public <T> SelectCommand from(Class<T> clazz) {
-        return from(clazz, new Class[] {});
-    }
-
-    public <T> SelectCommand from(Class<T> clazz, Class<?>... optionalClasses) {
-        if (optionalClasses == null) {
-            return from(clazz);
-        } else {
-            List<Table> tables = Stream.concat(
-                        Stream.of(clazz),
-                        Stream.of(optionalClasses))
-                    .map(Table::of)
-                    .collect(Collectors.toList());
-            return from(tables);
-        }
+    
+    public static Select properties(Table table) {
+        return properties(table.all());
     }
 
     public SelectCommand from(Table table) {

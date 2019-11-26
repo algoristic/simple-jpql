@@ -2,23 +2,12 @@ package de.algoristic.jpql.sql;
 
 import de.algoristic.jpql.Condition;
 import de.algoristic.jpql.Property;
-import de.algoristic.jpql.Table;
-import de.algoristic.jpql.util.RandomStringProvider;
 
 abstract class StatementPreparator {
     
-    public static void prepareQuery(SelectCommand select) {
+    public static SharedQueryInformation prepareQuery(SelectCommand select) {
         FromClause fromClause = select.getFromClause();
-        RandomStringProvider rsp = new RandomStringProvider();
-        rsp.init(fromClause);
-        for(Table table: fromClause) {
-            String alias = table.getAlias();
-            if(alias == null) {
-                alias = rsp.getRandom();
-                table.setAlias(alias);
-            }
-        }
-        QueryInformation queryInfo = new QueryInformation();
+        SharedQueryInformation queryInfo = new SharedQueryInformation();
         queryInfo.setTableData(fromClause);
         SelectClause selectClause = select.getSelectClause();
         for(Property property: selectClause) {
@@ -28,6 +17,7 @@ abstract class StatementPreparator {
         for(Condition condition: whereClause) {
             condition.preProcess(queryInfo);
         }
+        return queryInfo;
     }
 
 }

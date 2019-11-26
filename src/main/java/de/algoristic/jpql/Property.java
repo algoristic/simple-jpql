@@ -3,18 +3,14 @@ package de.algoristic.jpql;
 import java.util.List;
 
 import de.algoristic.jpql.conditions.ConditionSelector;
-import de.algoristic.jpql.parse.PropertyParser;
-import de.algoristic.jpql.parse.QualifierParser;
 import de.algoristic.jpql.render.PropertyRenderer;
 import de.algoristic.jpql.render.Renderable;
 import de.algoristic.jpql.render.Renderer;
 import de.algoristic.jpql.sql.BoundedProperty;
-import de.algoristic.jpql.sql.QueryInformation;
+import de.algoristic.jpql.sql.SharedQueryInformation;
 import de.algoristic.jpql.sql.UnboundedProperty;
 
 public abstract class Property implements Renderable {
-
-    private static QualifierParser<Property> propertyParser = new PropertyParser();
 
     private ConditionSelector ongoingSelector;
     protected String name;
@@ -40,38 +36,38 @@ public abstract class Property implements Renderable {
 
     abstract public String getTableAlias();
 
-    public abstract void preProcess(QueryInformation queryInfo);
+    public abstract void preProcess(SharedQueryInformation queryInfo);
 
-    public static Property of(String qualifier) {
-        return propertyParser.parse(qualifier);
-    }
-
-    public static Property of(String tableAlias, String name) {
-        return new UnboundedProperty(name, tableAlias);
-    }
-
-    public static Property of(Class<?> clazz, String name) {
-        return new BoundedProperty(name, clazz);
-    }
-
-    public static Property of(Table table, String name) {
+    static Property of(Table table, String name) {
         return new BoundedProperty(name, table);
     }
 
-    public Condition equals(Number value) {
-        return ongoingSelector.equals(value);
+    static Property of(String name) {
+        return new UnboundedProperty(name);
     }
 
-    public Condition equals(String value) {
-        return ongoingSelector.equals(value);
+    public Condition isEquals(Object object) {
+        return ongoingSelector.isEquals(object);
     }
 
-    public Condition equals(Boolean value) {
-        return ongoingSelector.equals(value);
+    public Condition isEquals(Number value) {
+        return ongoingSelector.isEquals(value);
     }
 
-    public Condition equals(Property value) {
-        return ongoingSelector.equals(value);
+    public Condition isEquals(String value) {
+        return ongoingSelector.isEquals(value);
+    }
+
+    public Condition isEquals(Boolean value) {
+        return ongoingSelector.isEquals(value);
+    }
+
+    public Condition isEquals(Property value) {
+        return ongoingSelector.isEquals(value);
+    }
+
+    public Condition isEquals(Table table) {
+        return ongoingSelector.isEquals(table);
     }
 
     public Condition lessThan(Number value) {

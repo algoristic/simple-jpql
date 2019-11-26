@@ -5,7 +5,7 @@ import de.algoristic.jpql.Property;
 import de.algoristic.jpql.render.PropertyConditionRenderer;
 import de.algoristic.jpql.render.Renderer;
 import de.algoristic.jpql.render.wrapper.SQLDisplayWrapper;
-import de.algoristic.jpql.sql.QueryInformation;
+import de.algoristic.jpql.sql.SharedQueryInformation;
 
 public class PropertyCondition implements Condition {
 
@@ -30,8 +30,9 @@ public class PropertyCondition implements Condition {
     }
 
     @Override
-    public void preProcess(QueryInformation queryInfo) {
+    public void preProcess(SharedQueryInformation queryInfo) {
         property.preProcess(queryInfo);
+        wrapper.preProcess(queryInfo);
     }
 
     public Property getProperty() {

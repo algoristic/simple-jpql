@@ -7,10 +7,6 @@ public class BoundedProperty extends Property {
     
     protected Table table;
     
-    public BoundedProperty(String name, Class<?> binding) {
-        this(name, Table.of(binding));
-    }
-
     public BoundedProperty(String name, Table table) {
         super(name);
         this.table = table;
@@ -22,12 +18,14 @@ public class BoundedProperty extends Property {
     }
 
     @Override
-    public void preProcess(QueryInformation queryInfo) {
-        for(Table other: queryInfo.getAffectedTables()) {
-            if(table.matching(other)) {
-                String alias = other.getAlias();
-                table.setAlias(alias);
-                break;
+    public void preProcess(SharedQueryInformation queryInfo) {
+        if(table.hasEmptyAlias()) {
+            for(Table other: queryInfo.getAffectedTables()) {
+                if(table.matching(other)) {
+                    String alias = other.getAlias();
+                    table.setAlias(alias);
+                    break;
+                }
             }
         }
     }

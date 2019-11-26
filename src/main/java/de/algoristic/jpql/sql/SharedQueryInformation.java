@@ -5,12 +5,14 @@ import java.util.List;
 
 import de.algoristic.jpql.Table;
 
-public class QueryInformation {
+public class SharedQueryInformation {
 
     private List<Table> affectedTables;
+    List<ComplexParameter> complexParameters;
 
-    public QueryInformation() {
+    public SharedQueryInformation() {
         affectedTables = new ArrayList<>();
+        complexParameters = new ArrayList<>();
     }
 
     List<Table> getAffectedTables() {
@@ -19,6 +21,14 @@ public class QueryInformation {
 
     public void setTableData(FromClause fromClause) {
         affectedTables = fromClause.getTables();
+    }
+
+    public boolean add(ComplexParameter e) {
+        return complexParameters.add(e);
+    }
+
+    public List<ComplexParameter> getComplexParameters() {
+        return complexParameters;
     }
 
 }

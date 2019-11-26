@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import infrastructure.entities.Author;
 import infrastructure.entities.Book;
 
 @DisplayName("Tests providing the basic functionality of the In-Memory DB")
@@ -31,7 +32,11 @@ public class InMemoryDBTest extends BasicJPQLTest {
     @DisplayName("Create a new object and persist it")
     public void persistNewEntry() {
         em.getTransaction().begin();
-        em.persist(new Book(11, "Unit Test Hibernate/JPA with in memory H2 Database", "Marco Leweke"));
+        Author marco = new Author(4, "Marco Leweke", null);
+        em.persist(marco);
+        em.getTransaction().commit();
+        em.getTransaction().begin();
+        em.persist(new Book(11, "Unit Test Hibernate/JPA with in memory H2 Database", 2019, marco));
         em.getTransaction().commit();
         List<Book> books = em.createNamedQuery("Book.getAll", Book.class).getResultList();
         assertNotNull(books);

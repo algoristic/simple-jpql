@@ -7,7 +7,9 @@ import java.util.stream.Stream;
 
 import de.algoristic.jpql.Condition;
 import de.algoristic.jpql.Property;
+import de.algoristic.jpql.Table;
 import de.algoristic.jpql.render.wrapper.BooleanWrapper;
+import de.algoristic.jpql.render.wrapper.ComplexDataWrapper;
 import de.algoristic.jpql.render.wrapper.DualValueWrapper;
 import de.algoristic.jpql.render.wrapper.ListWrapper;
 import de.algoristic.jpql.render.wrapper.NullWrapper;
@@ -15,6 +17,7 @@ import de.algoristic.jpql.render.wrapper.NumberWrapper;
 import de.algoristic.jpql.render.wrapper.PropertyWrapper;
 import de.algoristic.jpql.render.wrapper.SQLDisplayWrapper;
 import de.algoristic.jpql.render.wrapper.StringWrapper;
+import de.algoristic.jpql.sql.FullTableProperty;
 
 public class ConditionSelector {
 
@@ -23,21 +26,30 @@ public class ConditionSelector {
     public ConditionSelector(Property property) {
         affectedProperty = property;
     }
+    
+    public Condition isEquals(Object object) {
+        return PropertyConditions.EQUALS.apply(affectedProperty, new ComplexDataWrapper(object));
+    }
 
-    public Condition equals(Number value) {
+    public Condition isEquals(Number value) {
         return numberCondition(PropertyConditions.EQUALS, value);
     }
 
-    public Condition equals(String value) {
+    public Condition isEquals(String value) {
         return stringCondition(PropertyConditions.EQUALS, value);
     }
 
-    public Condition equals(Boolean value) {
+    public Condition isEquals(Boolean value) {
         return applyWrapper(PropertyConditions.EQUALS, new BooleanWrapper(value));
     }
     
-    public Condition equals(Property value) {
+    public Condition isEquals(Property value) {
         return propertyCondition(PropertyConditions.EQUALS, value);
+    }
+    
+    public Condition isEquals(Table table) {
+        Property property = new FullTableProperty(table);
+        return propertyCondition(PropertyConditions.EQUALS, property);
     }
 
     //TODO: date conditions

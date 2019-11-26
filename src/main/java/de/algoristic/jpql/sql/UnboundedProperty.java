@@ -11,18 +11,13 @@ public class UnboundedProperty extends Property {
         super(name);
     }
 
-    public UnboundedProperty(String name, String tableAlias) {
-        this(name);
-        this.tableAlias = tableAlias;
-    }
-
     @Override
     public String getTableAlias() {
         return tableAlias;
     }
 
     @Override
-    public void preProcess(QueryInformation queryInfo) {
+    public void preProcess(SharedQueryInformation queryInfo) {
         if(tableAlias == null) {
             Table reference = queryInfo.getAffectedTables().get(0);
             tableAlias = reference.getAlias();

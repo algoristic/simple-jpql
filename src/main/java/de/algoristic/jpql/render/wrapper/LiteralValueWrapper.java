@@ -1,11 +1,11 @@
 package de.algoristic.jpql.render.wrapper;
 
-import de.algoristic.jpql.sql.QueryInformation;
+import de.algoristic.jpql.sql.SharedQueryInformation;
 
 public abstract class LiteralValueWrapper implements SQLDisplayWrapper {
 
     @Override
-    public void preProcess(QueryInformation queryInfo) {
+    public void preProcess(SharedQueryInformation queryInfo) {
         // TODO Auto-generated method stub
     }
 

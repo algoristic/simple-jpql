@@ -2,7 +2,7 @@ package de.algoristic.jpql.render.wrapper;
 
 import de.algoristic.jpql.Property;
 import de.algoristic.jpql.render.Renderer;
-import de.algoristic.jpql.sql.QueryInformation;
+import de.algoristic.jpql.sql.SharedQueryInformation;
 
 public class PropertyWrapper implements SQLDisplayWrapper {
 
@@ -19,7 +19,7 @@ public class PropertyWrapper implements SQLDisplayWrapper {
     }
 
     @Override
-    public void preProcess(QueryInformation queryInfo) {
+    public void preProcess(SharedQueryInformation queryInfo) {
         property.preProcess(queryInfo);
     }
 

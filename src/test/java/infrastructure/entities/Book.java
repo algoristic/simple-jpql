@@ -2,13 +2,14 @@ package infrastructure.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Book.getAll", query = "SELECT b FROM Book b"),
-        @NamedQuery(name = "Book.getAuthorAndTitle", query = "SELECT b.author, b.title FROM Book b")
+        @NamedQuery(name = "Book.getAll", query = "SELECT b FROM Book b")
 })
 public class Book {
 
@@ -16,14 +17,17 @@ public class Book {
     private Integer id;
     private String title;
     private Integer year;
-    private String author;
+    @ManyToOne
+    @JoinColumn(name = "AUTHOR_ID")
+    private Author author;
 
     public Book() {
     }
 
-    public Book(Integer id, String title, String author) {
+    public Book(Integer id, String title, Integer year, Author author) {
         this.id = id;
         this.title = title;
+        this.year = year;
         this.author = author;
     }
 
@@ -51,11 +55,11 @@ public class Book {
         this.year = year;
     }
 
-    public String getAuthor() {
+    public Author getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(Author author) {
         this.author = author;
     }
 

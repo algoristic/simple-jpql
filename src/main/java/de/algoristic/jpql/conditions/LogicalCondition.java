@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 import de.algoristic.jpql.Condition;
 import de.algoristic.jpql.render.LogicalConditionRenderer;
 import de.algoristic.jpql.render.Renderer;
-import de.algoristic.jpql.sql.QueryInformation;
+import de.algoristic.jpql.sql.SharedQueryInformation;
 
 public class LogicalCondition implements Condition {
 
@@ -41,7 +41,7 @@ public class LogicalCondition implements Condition {
     }
 
     @Override
-    public void preProcess(QueryInformation queryInfo) {
+    public void preProcess(SharedQueryInformation queryInfo) {
         conditions.forEach(condition -> condition.preProcess(queryInfo));
     }
 

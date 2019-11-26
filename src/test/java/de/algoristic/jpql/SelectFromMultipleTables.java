@@ -1,6 +1,7 @@
 package de.algoristic.jpql;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -15,55 +16,27 @@ import infrastructure.entities.Book;
 @SuppressWarnings("rawtypes")
 @DisplayName("Queries resembling: SELECT * FROM <TABLE>, [<TABLES>]")
 public class SelectFromMultipleTables extends BasicJPQLTest {
-    
+
+    Table books = Table.of(Book.class);
+    Table authors = Table.of(Author.class);
+
     @Test
-    @DisplayName("*.from(Table.of(\"Author\"), Table.of(Book.class))")
-    public void selectByMultipleTableString() {
-        String qlString = Select.all.from(Table.of("Author"), Table.of(Book.class)).query();
-        List ls = em.createQuery(qlString).getResultList();
-        assertEquals(30, ls.size()); //cross product of author (len=3) and book (len=10)
-    }
-    
-    @Test
-    @DisplayName("*.from(Table.of(\"Author\"), null)")
-    public void selectByMultipleTableStringsWithNull() {
-        String qlString = Select.all.from(Table.of("Author"), null).query();
-        List ls = em.createQuery(qlString).getResultList();
-        assertEquals(3, ls.size()); //cross product of author (len=3) and book (len=10)
-    }
-    
-    @Test
-    @DisplayName("*.from(\"Author a, Book b\")")
-    public void selectByMultipleTableStringWithAliases () {
-        String qlString = Select.all.from(Table.of("Author a"), Table.of("Book b")).query();
-        List ls = em.createQuery(qlString).getResultList();
-        assertEquals(30, ls.size()); //cross product of author (len=3) and book (len=10)
-    }
-    
-    @Test
-    @DisplayName("*.from(Author.class, Book.class)")
-    public void selectByMultipleClasses() {
-        String qlString = Select.all.from(Author.class, Book.class).query();
-        List ls = em.createQuery(qlString).getResultList();
-        assertEquals(30, ls.size()); //cross product of author (len=3) and book (len=10)
-    }
-    
-    @Test
-    @DisplayName("*.properties(Property.of(Book.class, \"title\")).from(Author.class, Book.class)")
+    @DisplayName("*.properties(books.property(\"title\")).from(books, authors)")
     void selectSinglePropertyFromMultipleClasses() {
-        String qlString = Select.properties(Property.of(Book.class, "title")).from(Author.class, Book.class).query();
+        String qlString = Select.properties(books.property("title")).from(books, authors).query();
         List ls = em.createQuery(qlString).getResultList();
         assertEquals(30, ls.size()); //cross product of author (len=3) and book (len=10)
     }
-    
+
     @Test
-    @DisplayName("*.from(Author.class, null)")
+    @DisplayName("*.from(Table.of(Author.class), null)")
     public void selectByMultipleClassesWithNull() {
-        String qlString = Select.all.from(Author.class, null).query();
-        List ls = em.createQuery(qlString).getResultList();
-        assertEquals(3, ls.size()); //cross product of author (len=3) and book (len=10)
+        Table dummy = null;
+        assertThrows(NullPointerException.class, () -> {
+            Select.all.from(Table.of(Author.class), dummy).query();
+        });
     }
-    
+
     @Test
     @DisplayName("*.from(Table.of(Author.class), Table.of(Book.class))")
     public void selectByMultipleTables() {
@@ -71,43 +44,11 @@ public class SelectFromMultipleTables extends BasicJPQLTest {
         List ls = em.createQuery(qlString).getResultList();
         assertEquals(30, ls.size()); //cross product of author (len=3) and book (len=10)
     }
-    
+
     @Test
-    @DisplayName("*.from(Table.of(Author.class), null)")
-    public void selectByMultipleTablesWithNull() {
-        String qlString = Select.all.from(Table.of(Author.class), null).query();
-        List ls = em.createQuery(qlString).getResultList();
-        assertEquals(3, ls.size()); //cross product of author (len=3) and book (len=10)
-    }
-    
-    @Test
-    @DisplayName("*.from(Table.of(Author.class, \"a\"), Table.of(Book.class, \"b\"))")
-    public void selectByMultipleTablesWithAliases() {
-        String qlString = Select.all.from(Table.of(Author.class, "a"), Table.of(Book.class, "b")).query();
-        List ls = em.createQuery(qlString).getResultList();
-        assertEquals(30, ls.size()); //cross product of author (len=3) and book (len=10)
-    }
-    
-    @Test
-    @DisplayName("*.from(Table.of(Author.class, \"a\"), Table.of(Book.class))")
-    public void selectByMultipleTablesMixed() {
-        String qlString = Select.all.from(Table.of(Author.class, "a"), Table.of(Book.class)).query();
-        List ls = em.createQuery(qlString).getResultList();
-        assertEquals(30, ls.size()); //cross product of author (len=3) and book (len=10)
-    }
-    
-    @Test
-    @DisplayName("*.from(Table.of(Author.class), Table.of(Book.class).as(\"b\"))")
-    public void selectByMultipleTablesMixedAlternative() {
-        String qlString = Select.all.from(Table.of(Author.class), Table.of(Book.class).as("b")).query();
-        List ls = em.createQuery(qlString).getResultList();
-        assertEquals(30, ls.size()); //cross product of author (len=3) and book (len=10)
-    }
-    
-    @Test
-    @DisplayName("*.properties(Table.of(Author.class).all()).from(Table.of(Author.class), Table.of(Book.class))")
+    @DisplayName("*.properties(authors.all()).from(authors, Table.of(Book.class))")
     public void selectAllFromOneTableByMultiple() {
-        String qlString = Select.properties(Table.of(Author.class).all()).from(Table.of(Author.class), Table.of(Book.class)).query();
+        String qlString = Select.properties(authors.all()).from(authors, Table.of(Book.class)).query();
         List ls = em.createQuery(qlString).getResultList();
         assertEquals(30, ls.size()); //cross product of author (len=3) and book (len=10)
         Object firstResult = ls.get(0);
