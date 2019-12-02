@@ -2,7 +2,7 @@
 
 ## Overview
 
-**Simple-jpql** provides a wrapper around the JPQL query-syntax defined by JPA.
+**Simple-jpql** provides a wrapper around the JPQL query-syntax defined by JPA. **Simple-jpql** is designed to give you OOP-feeling when writing SQL queries, unlike "stringing" your queries together with plain JPQL, whilst providing an easier syntax than the Criteria API.
 
 ## Examples
 
@@ -45,35 +45,13 @@ Table books = Table.of(Books.class);
 Select.all.from(books);
 ```
 
-**Query specific properties using conditions**
+**Combined specific properties, using conditions**
 
 SQL
 ```sql
 SELECT
     b.id,
     b.year
-FROM
-    Books b
-WHERE
-    b.title LIKE 'Berserk%'
-;
-```
-Java
-```java
-Table books = Table.of(Book.class);
-Select.properties(
-        books.property("id"),
-        books.property("year"))
-    .from(books)
-    .where(books.property("title").like("Berserk%"));
-```
-
-**Combined conditions with `AND`/`OR`**
-
-SQL
-```sql
-SELECT
-    *
 FROM
     Books b
 WHERE
@@ -85,7 +63,9 @@ WHERE
 Java
 ```java
 Table books = Table.of(Book.class);
-Select.all
+Select.properties(
+        books.property("id"),
+        books.property("year")))
     .from(books)
     .where(Condition.and(
         books.property("title").like("Berserk%"),
@@ -95,27 +75,24 @@ Select.all
 
 ### Queries with Non-Primitive Datatypes
 
-[//]: # (
-    Describe this!
-)
-
 SQL
 ```sql
 SELECT
     b
 FROM
-    books b,
-    authors a
+    books b
 WHERE
-    b.author_id = a.id
+    b.author_id = xyz
 ```
 Java
 ```java
+EntityManager em = ...;
+Author author = ...;
 Table books = Table.of(Book.class);
-Table authors = Table.of(Author.class);
-Select.properties(books)
-    .from(books, authors)
-    .where(books.property("author").isEquals(authors));
+Query query = Select.properties(books)
+    .from(books)
+    .where(books.property("author").isEquals(author))
+    .query(em);
 ```
 
 ### Plans
