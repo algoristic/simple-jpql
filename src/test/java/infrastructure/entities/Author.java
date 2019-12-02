@@ -19,7 +19,6 @@ public class Author {
     }
 
     public Author(Integer id, String name, List<Book> books) {
-        super();
         this.id = id;
         this.name = name;
         this.books = books;
