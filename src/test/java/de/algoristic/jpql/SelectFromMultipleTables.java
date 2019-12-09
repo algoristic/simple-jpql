@@ -14,14 +14,14 @@ import infrastructure.entities.Author;
 import infrastructure.entities.Book;
 
 @SuppressWarnings("rawtypes")
-@DisplayName("Queries resembling: SELECT * FROM <TABLE>, [<TABLES>]")
+@DisplayName("SELECT <PROPERTIES> ...")
 public class SelectFromMultipleTables extends BasicJPQLTest {
 
     Table books = Table.of(Book.class);
     Table authors = Table.of(Author.class);
 
     @Test
-    @DisplayName("*.properties(books.property(\"title\")).from(books, authors)")
+    @DisplayName("... FROM books, authors")
     void selectSinglePropertyFromMultipleClasses() {
         String qlString = Select.properties(books.property("title")).from(books, authors).query();
         List ls = em.createQuery(qlString).getResultList();
@@ -29,7 +29,7 @@ public class SelectFromMultipleTables extends BasicJPQLTest {
     }
 
     @Test
-    @DisplayName("*.from(Table.of(Author.class), null)")
+    @DisplayName("... FROM authors, NULL")
     public void selectByMultipleClassesWithNull() {
         Table dummy = null;
         assertThrows(NullPointerException.class, () -> {
@@ -38,7 +38,7 @@ public class SelectFromMultipleTables extends BasicJPQLTest {
     }
 
     @Test
-    @DisplayName("*.from(Table.of(Author.class), Table.of(Book.class))")
+    @DisplayName("... FROM authors, books")
     public void selectByMultipleTables() {
         String qlString = Select.all.from(Table.of(Author.class), Table.of(Book.class)).query();
         List ls = em.createQuery(qlString).getResultList();
@@ -46,7 +46,7 @@ public class SelectFromMultipleTables extends BasicJPQLTest {
     }
 
     @Test
-    @DisplayName("*.properties(authors.all()).from(authors, Table.of(Book.class))")
+    @DisplayName("... FROM authors, books")
     public void selectAllFromOneTableByMultiple() {
         String qlString = Select.properties(authors.all()).from(authors, Table.of(Book.class)).query();
         List ls = em.createQuery(qlString).getResultList();

@@ -12,11 +12,11 @@ import infrastructure.entities.Author;
 import infrastructure.entities.Book;
 
 @SuppressWarnings("rawtypes")
-@DisplayName("Queries resembling: SELECT * FROM <TABLE>")
+@DisplayName("SELECT * ...")
 public class SelectAllTest extends BasicJPQLTest {
 
     @Test
-    @DisplayName("*.all.from(Table.of(Book.class))")
+    @DisplayName("... FROM books")
     void selectAllFromSingleTable() {
         String qlString = Select.all.from(Table.of(Book.class)).query();
         List results = em.createQuery(qlString).getResultList();
@@ -24,7 +24,7 @@ public class SelectAllTest extends BasicJPQLTest {
     }
 
     @Test
-    @DisplayName("*.all.from(Table.of(Book.class))")
+    @DisplayName("... FROM books, authors")
     void selectAllFromMultipleTables() {
         String qlString = Select.all.from(Table.of(Book.class), Table.of(Author.class)).query();
         List results = em.createQuery(qlString).getResultList();

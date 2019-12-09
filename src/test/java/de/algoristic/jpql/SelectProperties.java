@@ -13,13 +13,13 @@ import infrastructure.BasicJPQLTest;
 import infrastructure.entities.Book;
 
 @SuppressWarnings("rawtypes")
-@DisplayName("Queries resembling: SELECT a.prop_1, [a.prop_n] FROM table a")
+@DisplayName("SELECT ...")
 public class SelectProperties extends BasicJPQLTest {
     
     Table books = Table.of(Book.class);
 
     @Test
-    @DisplayName("*.properties(books.property(\"title\"))*")
+    @DisplayName("... title FROM books")
     void selectSinglePropertyString() {
         String qlString = Select.properties(books.property("title")).from(books).query();
         List results = em.createQuery(qlString).getResultList();
@@ -29,7 +29,7 @@ public class SelectProperties extends BasicJPQLTest {
     }
 
     @Test
-    @DisplayName("*.properties(new Property[] { books.property(\"title\") })*")
+    @DisplayName("... title FROM books")
     void selectSinglePropertyStringArray() {
         String qlString = Select.properties(new Property[] {
                 books.property("title")
@@ -41,7 +41,7 @@ public class SelectProperties extends BasicJPQLTest {
     }
 
     @Test
-    @DisplayName("*.properties(new Property[] { books.property(\"title\"), books.property(\"author\") })*")
+    @DisplayName("... title, author FROM books")
     void selectMultiplePropertyStringArray() {
         String qlString = Select.properties(new Property[] {
                 books.property("title"), books.property("author")
@@ -51,7 +51,7 @@ public class SelectProperties extends BasicJPQLTest {
     }
 
     @Test
-    @DisplayName("*.properties(books.property(\"title\"), books.property(\"author\"))*")
+    @DisplayName("... title, author FROM books")
     void selectMultiplePropertyStringVarArgs() {
         String qlString = Select.properties(books.property("title"), books.property("author")).from(books).query();
         List results = em.createQuery(qlString).getResultList();
@@ -59,7 +59,7 @@ public class SelectProperties extends BasicJPQLTest {
     }
 
     @Test
-    @DisplayName("*.properties(books.property(\"title\"), null)*")
+    @DisplayName("... title, NULL FROM books")
     void selectMultiplePropertyStringNullArgs() {
         Property dummy = null;
         assertThrows(NullPointerException.class, () -> {
