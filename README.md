@@ -95,10 +95,9 @@ Query query = Select.properties(books)
     .query(em);
 ```
 
-### Plans
-
+### Planing
+- FUNCTIONS (others than simple aggregate-functions)
 - JOINS
-- FUNCTIONS
 - GROUP BY and HAVING
 - ORDER BY
 - distinct date/time/datetime datatype
