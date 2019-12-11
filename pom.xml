@@ -9,8 +9,7 @@
   <properties>
     <commons-lang3.version>3.9</commons-lang3.version>
     <hibernate-core.version>5.4.7.Final</hibernate-core.version>
-    <junit-jupiter-api.version>5.5.2</junit-jupiter-api.version>
-    <junit-jupiter-engine.version>5.5.2</junit-jupiter-engine.version>
+    <junit.version>5.5.2</junit.version>
     <h2.version>1.4.200</h2.version>
     <log4j-core.version>2.12.1</log4j-core.version>
   </properties>
@@ -36,13 +35,13 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
-      <version>${junit-jupiter-api.version}</version>
+      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
-      <version>${junit-jupiter-engine.version}</version>
+      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
